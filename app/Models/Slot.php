@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Slot extends Model
 {
     use HasFactory;
+    protected $fillable=[
+        "start_time","end_time"
+    ];
+    
 }
