@@ -12,24 +12,28 @@ class AppointmentFormController extends Controller
     {
         $this->appointments = $createAppointment;
     }
+    public function existingAppointment(Request $request)
+{
+    $appointmentExists = $this->appointments->checkAppointment($request);
+
+    if ($appointmentExists) {
+        
+        return response()->json(['message' => 'Appointment already scheduled'], 409);
+    }
+
+    return response()->json(['message' => 'Appointment does not exist'], 404);
+}
 
     public function store(Request $request)
     {
         try {
 
-            $validated = $request->validate([
-                'position_id' => 'required|exists:positions,id',
-                'slot_id' => 'required|exists:slots,id',
-                'name' => 'required|string|max:50',
-                'email' => 'required|email',
-                'contact' => 'required|string',
-                'cover_letter' => 'nullable|string',
-                'resume' => 'required|file|mimes:pdf,doc,docx',
-                'date' => 'required|date',
-            ]);
-
            
-           $this->appointments->execute($validated);
+           
+          $appointment= $this->appointments->execute($request);
+          if($appointment){
+            return response()->json(['message' => 'Appointment already scheduled'], 422);
+          }
             return response()->json([ 'message' => 'Appointment scheduled successfully'], 200);
 
         } catch (\Exception $e) {
@@ -37,4 +41,5 @@ class AppointmentFormController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
 }

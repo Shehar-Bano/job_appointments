@@ -16,6 +16,7 @@ class Slot extends Model
     {
         return $this->hasMany(AppointmentForm::class);
     }
+    
 
     public function scopeWhereStatus($query, $status){
         if($status){
