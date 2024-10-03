@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('jobs', function (Blueprint $table) {
+        Schema::create('positions', function (Blueprint $table) {
             $table->id();
             $table->text('title');
             $table->enum('job_type', ["full_time","part_time"]);
             $table->json('requirement');
-            $table->json('skills');
             $table->enum('status', ["open","close"])->default('open');
             $table->text('description');
+            $table->date('post_date');
             $table->timestamps();
         });
     }

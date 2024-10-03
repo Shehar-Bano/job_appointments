@@ -13,8 +13,6 @@ return new class extends Migration
     {
         Schema::create('appointment_forms', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('job_id');
-            $table->foreign('job_id')->references('id')->on('jobs');
             $table->unsignedBigInteger('slot_id');
             $table->foreign('slot_id')->references('id')->on('slots');
             $table->string('name');
@@ -24,6 +22,8 @@ return new class extends Migration
             $table->string('resume');
             $table->date('date');
            $table->enum('status',["scheduled", "done","canceled"])->default("scheduled");
+            $table->unsignedBigInteger('position_id');
+            $table->foreign('position_id')->references('id')->on('positions');
             $table->timestamps();
         });
     }
