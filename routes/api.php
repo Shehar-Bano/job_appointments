@@ -12,4 +12,5 @@ Route::get('/user', function (Request $request) {
 
 Route::apiResource('slots',SlotController::class);
 Route::apiResource('positions', PositionController::class);
+Route::post('slots/change-status/{id}', [SlotController::class, 'changeStatus']);
 

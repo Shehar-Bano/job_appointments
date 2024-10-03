@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SlotResource;
 use App\Services\SlotService;
 use Illuminate\Http\Request;
 
@@ -15,13 +16,31 @@ class SlotController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $slots = $this->slot->all();
-        return response()->json([
-            "data"=> $slots,
-            "success"=>true
-        ],200);
+        $status=$request->input('status');
+        $start_time=$request->input('start_time');
+        $end_time=$request->input('end_time');
+        $limit = $this->getValue($request->input('limit'));
+     
+
+        $slots = $this->slot->fetchData($limit,$status, $start_time,  $end_time );
+
+        if(!$slots) {
+            return response()->json(['message' => 'No slots found'], 404);
+        }
+
+        $data=SlotResource::collection($slots);
+
+        $paginationData=[
+            'Recode'=> $data,
+            'Pagination_Limit'=>$data->count(),
+            
+            'Current_Page'=> $data->currentPage(),
+
+            'Total_Recode'=> $data->total(),
+        ];
+        return response()->json(["data"=>  $paginationData, "success"=>true],200);
     }
 
     /**
@@ -29,7 +48,25 @@ class SlotController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated=$request->validate([
+            'start_time'=>'required',
+            'end_time'=>'required',
+
+        ]);
+
+    
+        $slot = $this->slot->create($validated);
+        if(!$slot){
+            return response()->json([
+                "message"=>"Failed to create slot",
+                "success"=>false
+                ],400);
+        }
+        return response()->json([
+      
+            "success"=>true,
+            "message"=> "Slot Created Successfully"
+            ],200);
     }
 
     /**
@@ -37,15 +74,52 @@ class SlotController extends Controller
      */
     public function show(string $id)
     {
-        //
-    }
+        try{
+            $slot = $this->slot->show($id);
+        if(!$slot) {
+            return response()->json(['message' => 'Slot not found'], 404);
+            }
+            $data = new SlotResource($slot);
+            return response()->json(["data"=>  $data, "success"=>true],200);
+        }
+        catch(\Exception $e){
+            return response()->json(['message' =>  $e->getMessage(),], 500);
+            }
+  }
+        
+    
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        //
+     try{
+        $validated=$request->validate([
+            'start_time'=>'required',
+            'end_time'=>'required',
+            ]);
+            $slot = $this->slot->update($id,$validated);
+            if(!$slot){
+                return response()->json([
+                    "message"=>"Slot not found",
+                    "success"=>false
+                    ],404);
+                }
+                
+                return response()->json([
+                    "success"=>true,
+                    "message"=>"Slot Updated Successfully"
+                    ],200);
+
+     }
+     catch(\Exception $e){
+        return response()->json([
+            "message"=>$e->getMessage(),
+            "success"=>false
+            ],500);
+            }
+        
     }
 
     /**
@@ -53,6 +127,42 @@ class SlotController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+       
+        $deleted = $this->slot->delete($id);
+    
+        if ($deleted) {
+
+            return response()->json(["message" => "Slot Deleted Successfully","success" => true
+            ], 200);
+        } else {
+           
+            return response()->json(["message" => "Slot Not Found", "success" => false], 404);
+        }
     }
+
+    public function changeStatus($id){
+       try{
+        $slot=$this->slot->changeStatus($id);
+        if($slot){
+            return response()->json([
+                "message"=>"Slot Status Changed Successfully",
+                "success"=>true
+                ],200);
+            }
+            else{
+                return response()->json([
+                    "message"=> "
+                    Slot Not Found",
+                    "success"=>false
+                    ],404);
+                     }
+       }
+       catch(\Exception $e){
+        return response()->json([
+            "message"=>$e->getMessage(),
+            "success"=>false
+            ],500);
+            }
+        }
+    
 }

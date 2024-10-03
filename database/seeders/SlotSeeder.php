@@ -13,6 +13,6 @@ class SlotSeeder extends Seeder
      */
     public function run(): void
     {
-        Slot::factory()->count(10)->create();
+        Slot::factory()->count(20)->create();
     }
 }

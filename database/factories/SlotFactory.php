@@ -19,8 +19,7 @@ class SlotFactory extends Factory
         return [
             'start_time' => $this->faker->dateTimeBetween('now', '+1 week'),
             'end_time' => $this->faker->dateTimeBetween('+1 week', '+2 weeks'),
-            'status' => 'open', // default status set to 'open'
-
+           
         ];
     }
 }
