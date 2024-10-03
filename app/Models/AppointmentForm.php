@@ -8,5 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class AppointmentForm extends Model
 {
     use HasFactory;
-    protected $fillable = ['job_id','slot_id','name','email','contact','description','resume','slot','status'];
+    protected $fillable = ['position_id','slot_id','name','email','contact','cover_letter','resume','slot','date'];
+    public function position()
+    {
+        return $this->belongsTo(Position::class);
+    }
+
+    public function slot()
+    {
+        return $this->belongsTo(Slot::class);
+    }
 }
+

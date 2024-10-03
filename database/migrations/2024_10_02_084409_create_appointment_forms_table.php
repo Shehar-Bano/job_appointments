@@ -13,17 +13,18 @@ return new class extends Migration
     {
         Schema::create('appointment_forms', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('position_id');
+            $table->foreign('position_id')->references('id')->on('positions');
             $table->unsignedBigInteger('slot_id');
             $table->foreign('slot_id')->references('id')->on('slots');
             $table->string('name');
             $table->string('email');
-            $table->integer('contact');
+            $table->string('contact');
             $table->longText('cover_letter');
             $table->string('resume');
             $table->date('date');
            $table->enum('status',["scheduled", "done","canceled"])->default("scheduled");
-            $table->unsignedBigInteger('position_id');
-            $table->foreign('position_id')->references('id')->on('positions');
+           
             $table->timestamps();
         });
     }

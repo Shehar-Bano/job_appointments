@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppointmentFormController;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Route;
@@ -11,6 +12,12 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::apiResource('slots',SlotController::class);
-Route::apiResource('positions', PositionController::class);
 Route::post('slots/change-status/{id}', [SlotController::class, 'changeStatus']);
+
+Route::apiResource('positions', PositionController::class);
+
+
+Route::prefix('appointment')->group(function (){
+    Route::post('create', [AppointmentFormController::class, 'store']);
+});
 
