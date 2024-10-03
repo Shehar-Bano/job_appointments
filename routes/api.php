@@ -8,3 +8,5 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 Route::apiResource('slots',SlotController::class);
+Route::post('slots/change-status/{id}', [SlotController::class, 'changeStatus']);
+
