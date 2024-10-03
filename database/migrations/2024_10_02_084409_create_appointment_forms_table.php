@@ -21,8 +21,8 @@ return new class extends Migration
             $table->unsignedBigInteger('slot_id');
             $table->foreign('slot_id')->references('id')->on('slots');
             $table->date('date');
-            $table->unsignedBigInteger('job_id');
-            $table->foreign('job_id')->references('id')->on('jobs');
+            $table->unsignedBigInteger('position_id');
+            $table->foreign('position_id')->references('id')->on('positions');
             $table->timestamps();
         });
     }
