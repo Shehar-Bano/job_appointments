@@ -4,9 +4,9 @@ use App\Models\Slot;
 
 class SlotService
 {
-    public function fetchData($limit,$status,$start_time,  $end_time){
+    public function fetchData($limit,$start_time,  $end_time){
 
-        $slots= Slot::whereStatus($status)->whereTime($start_time,  $end_time)
+        $slots= Slot::whereTime($start_time,  $end_time)
         ->paginate($limit);
         if(!$slots){
             return false;
@@ -54,14 +54,6 @@ class SlotService
         }
     }
 
-    public function changeStatus($id){
-        $slot=Slot::find($id);
-        if(!$slot){
-            return false;
-            }
-            $slot->status=$slot->status=='available'?'allocated':'available';
-            $slot->save();
-            return $slot;
-    }
+  
     }
 

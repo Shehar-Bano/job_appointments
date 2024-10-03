@@ -18,13 +18,13 @@ class SlotController extends Controller
      */
     public function index(Request $request)
     {
-        $status=$request->input('status');
+       
         $start_time=$request->input('start_time');
         $end_time=$request->input('end_time');
         $limit = $this->getValue($request->input('limit'));
      
 
-        $slots = $this->slot->fetchData($limit,$status, $start_time,  $end_time );
+        $slots = $this->slot->fetchData($limit, $start_time,  $end_time );
 
         if(!$slots) {
             return response()->json(['message' => 'No slots found'], 404);
@@ -140,29 +140,5 @@ class SlotController extends Controller
         }
     }
 
-    public function changeStatus($id){
-       try{
-        $slot=$this->slot->changeStatus($id);
-        if($slot){
-            return response()->json([
-                "message"=>"Slot Status Changed Successfully",
-                "success"=>true
-                ],200);
-            }
-            else{
-                return response()->json([
-                    "message"=> "
-                    Slot Not Found",
-                    "success"=>false
-                    ],404);
-                     }
-       }
-       catch(\Exception $e){
-        return response()->json([
-            "message"=>$e->getMessage(),
-            "success"=>false
-            ],500);
-            }
-        }
-    
+
 }
