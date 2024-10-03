@@ -13,16 +13,17 @@ return new class extends Migration
     {
         Schema::create('appointment_forms', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('job_id');
+            $table->foreign('job_id')->references('id')->on('jobs');
+            $table->unsignedBigInteger('slot_id');
+            $table->foreign('slot_id')->references('id')->on('slots');
             $table->string('name');
             $table->string('email');
             $table->integer('contact');
             $table->longText('cover_letter');
-            $table->string('resume')->default('open');
-            $table->unsignedBigInteger('slot_id');
-            $table->foreign('slot_id')->references('id')->on('slots');
+            $table->string('resume');
             $table->date('date');
-            $table->unsignedBigInteger('job_id');
-            $table->foreign('job_id')->references('id')->on('jobs');
+           $table->enum('status',["scheduled", "done","canceled"])->default("scheduled");
             $table->timestamps();
         });
     }
