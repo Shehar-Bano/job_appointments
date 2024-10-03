@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ResponseHelper;
 use App\Http\Requests\PositionStoreRequest;
 use App\Repositories\PositionRepositoryInterface;
 
@@ -29,7 +30,7 @@ class PositionController extends Controller
         'post_date' => $request->input('post_date'), // Ensure this is included
     ];
         $this->job->create($data);
-        return response()->json(['message'=> 'Data stored successfully'], 200);
+        return ResponseHelper::success("data stored successfully",200);
     }
     public function show(string $id)
     {
@@ -46,18 +47,18 @@ class PositionController extends Controller
         ];
         $updated = $this->job->update($id, $data);
         if ($updated) {
-            return response()->json('Job updated successfully',200);
+            return ResponseHelper::successMessage('Job updated successfully',200);
         } else {
-            return response()->json('Failed to update job', 500);  // Return a 500 error if the update fails
+            return ResponseHelper::error('Something went wrong', 500);
         }
     }
     public function destroy(string $id)
     {
         $updated = $this->job->delete($id);
         if ($updated) {
-            return response()->json('Job deleted successfully',200);
+            return ResponseHelper::successMessage('Job deleted successfully',200);
         } else {
-            return response()->json('Failed to delete job', 500);  // Return a 500 error if the update fails
+            return ResponseHelper::error('Failed to delete job', 500);  // Return a 500 error if the update fails
         }
     }
 }
