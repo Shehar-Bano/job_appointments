@@ -19,7 +19,8 @@ Route::apiResource('positions', PositionController::class);
 
 Route::prefix('appointment')->controller(AppointmentFormController::class)->group(function (){
     Route::post('create', 'store');
-   
 });
+Route::post('positions/change-status/{id}', [PositionController::class, 'changeStatus']);
+
 
 

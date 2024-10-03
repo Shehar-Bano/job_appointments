@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Position;
 use App\Helpers\ResponseHelper;
 use App\Http\Requests\PositionStoreRequest;
 use App\Repositories\PositionRepositoryInterface;
@@ -60,5 +61,14 @@ class PositionController extends Controller
         } else {
             return ResponseHelper::error('Failed to delete job', 500);  // Return a 500 error if the update fails
         }
+    }
+    public function changeStatus($id){
+        $position=Position::find($id);
+        if(!$position){
+            return false;
+            }
+            $position->status=$position->status=='open'?'close':'open';
+            $position->save();
+            return $position;
     }
 }
