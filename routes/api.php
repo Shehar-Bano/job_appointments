@@ -17,7 +17,9 @@ Route::post('slots/change-status/{id}', [SlotController::class, 'changeStatus'])
 Route::apiResource('positions', PositionController::class);
 
 
-Route::prefix('appointment')->group(function (){
-    Route::post('create', [AppointmentFormController::class, 'store']);
+Route::prefix('appointment')->controller(AppointmentFormController::class)->group(function (){
+    Route::post('create', 'store');
+   
 });
+
 
