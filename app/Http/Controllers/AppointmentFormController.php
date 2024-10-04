@@ -17,7 +17,7 @@ class AppointmentFormController extends Controller
     $appointmentExists = $this->appointments->checkAppointment($request);
 
     if ($appointmentExists) {
-        
+
         return response()->json(['message' => 'Appointment already scheduled'], 409);
     }
 
@@ -27,14 +27,11 @@ class AppointmentFormController extends Controller
     public function store(Request $request)
     {
         try {
-
-           
-           
           $appointment= $this->appointments->execute($request);
           if($appointment){
-            return response()->json(['message' => 'Appointment already scheduled'], 422);
+            return response()->json(['message' => 'Appointment scheduled successfully'], 200);
           }
-            return response()->json([ 'message' => 'Appointment scheduled successfully'], 200);
+            return response()->json([ 'message' => 'Appointment already scheduled']);
 
         } catch (\Exception $e) {
             // Return a JSON response with the error message

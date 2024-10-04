@@ -1,10 +1,13 @@
 <?php
 namespace App\Actions;
 
-use App\Models\AppointmentForm;
+use Mail;
 use App\Models\Slot;
-use Illuminate\Support\Facades\Validator;
+use App\Models\AppointmentForm;
 use Illuminate\Http\UploadedFile;
+use App\Mail\UserAppointmentConfirmation;
+use Illuminate\Support\Facades\Validator;
+use App\Mail\AdminAppointmentNotification;
 
 class CreateAppointment
 {
@@ -25,7 +28,6 @@ class CreateAppointment
 
     public function execute($request)
     {
-        
         $validated = $request->validate([
             'position_id' => 'required|exists:positions,id',
             'slot_id' => 'required|exists:slots,id',
@@ -37,22 +39,6 @@ class CreateAppointment
             'date' => 'required|date',
         ]);
 
-
-        $date = $validated['date'];
-        $slotId = $validated['slot_id'];
-
-
-        $existingAppointment = AppointmentForm::where('slot_id', $slotId)
-            ->where('date', $date)
-            ->first();
-
-        if ($existingAppointment) {
-
-            return false;
-        }
-
-
-
         if (isset($validated['resume']) && $validated['resume'] instanceof UploadedFile) {
             $filePath = $validated['resume']->store('resumes', 'public');
             $validated['resume'] = $filePath;
@@ -60,6 +46,11 @@ class CreateAppointment
 
         $appointment = AppointmentForm::create($validated);
 
+        // Send email to user
+        Mail::to($validated['email'])->queue(new UserAppointmentConfirmation($appointment));
+
+        // Send email to admin through queue
+        Mail::to('rhondajarvis274@gmail.com')->queue(new AdminAppointmentNotification($appointment));
 
         return response()->json([
             'message' => 'Appointment scheduled successfully.',
