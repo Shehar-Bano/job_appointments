@@ -33,4 +33,13 @@ class ManageAppointmentsAction
         $appointment->delete();
         return $appointment;
     }
+    public function interview($id){
+        $appointment = AppointmentForm::find($id);
+        if (!$appointment) {
+            return false;
+        }
+        $appointment->status = 'done';
+        $appointment->save();
+        return $appointment;
+    }
 }
