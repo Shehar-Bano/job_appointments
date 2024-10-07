@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class AppointmentForm extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $fillable = ['position_id','slot_id','name','email','contact','cover_letter','resume','slot','date'];
+    protected $fillable = ['position_id','slot_id','name','email','contact','cover_letter','resume','slot','date','status'];
     public function position()
     {
         return $this->belongsTo(Position::class);
