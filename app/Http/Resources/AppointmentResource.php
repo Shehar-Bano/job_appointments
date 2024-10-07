@@ -22,10 +22,10 @@ class AppointmentResource extends JsonResource
             "cover_letter"=>$this->cover_letter,
             "resume"=>$this->resume,
             "date"=>$this->date,
-            "slot_id"=>$this->slot->id,
+            // "slot_id"=>$this->slot->id,
             // "start_time"=>$this->slot->start_time,
             // "end_time"=>$this->slot->end_time,
-            "position_id"=>$this->position_id,
+            "position_id"=>$this->position->id,
             "title"=>$this->position->title,
         ];
     }
