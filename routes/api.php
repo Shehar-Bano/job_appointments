@@ -43,10 +43,10 @@ Route::prefix('manage-appointment')->controller(ManageAppointmentController::cla
 ->group(function () {
     Route::get('list','index');
     Route::get('show/{id}','show');
-
-    Route::post('update','update');
     Route::delete('delete/{id}','destroy');
+    Route::get('interview-cancel/{id}','interviewCancel');
     Route::get('interview-done/{id}','interviewDone');
+
 });
 
 

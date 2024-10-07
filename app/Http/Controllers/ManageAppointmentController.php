@@ -86,7 +86,7 @@ class ManageAppointmentController extends Controller
     }
     public function interviewDone($id){
         try {
-            $appointment = $this->appointments->interview($id);
+            $appointment = $this->appointments->interviewDone($id);
             if (!$appointment) {
                 return ResponseHelper::error('Appointment not found', 404);
                 }
@@ -94,6 +94,21 @@ class ManageAppointmentController extends Controller
                } catch (\Exception $e) {
                 return ResponseHelper::error($e->getMessage(), 500);
                }
+    }
+
+    public function interviewCancel($id){
+        try {
+            $appointment = $this->appointments->cancel($id);
+            if (!$appointment) {
+                return ResponseHelper::error('
+                Appointment not found', 404);
+            }
+            return ResponseHelper::successMessage('Appointment cancelled successfully', 200);
+        }
+        catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), 404);
+        }
+
     }
 
 }

@@ -1,6 +1,9 @@
 <?php
 namespace App\Actions;
+
+use App\Mail\AppointmentCancelled;
 use App\Models\AppointmentForm;
+use Illuminate\Support\Facades\Mail;
 
 class ManageAppointmentsAction
 {
@@ -33,7 +36,7 @@ class ManageAppointmentsAction
         $appointment->delete();
         return $appointment;
     }
-    public function interview($id){
+    public function interviewDone($id){
         $appointment = AppointmentForm::find($id);
         if (!$appointment) {
             return false;
@@ -41,5 +44,17 @@ class ManageAppointmentsAction
         $appointment->status = 'done';
         $appointment->save();
         return $appointment;
+    }
+    public function cancel($id){
+        $appointment = AppointmentForm::find($id);
+        if (!$appointment) {
+            return false;
+            }
+            $appointment->status = 'canceled';
+            $appointment->save();
+            // Mail::to(  $appointment->email)->send(new AppointmentCancelled($appointment) );
+            Mail::to("hirakhizarkhizarhayat@gmail.com")->send(new AppointmentCancelled($appointment) );
+
+
     }
 }
