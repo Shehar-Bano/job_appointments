@@ -12,10 +12,6 @@ class Slot extends Model
     protected $fillable=[
         "start_time","end_time","status"
     ];
-    public function appointmentForms()
-    {
-        return $this->hasMany(AppointmentForm::class);
-    }
     
 
     public function scopeWhereStatus($query, $status){
@@ -37,6 +33,12 @@ class Slot extends Model
                 $query->where('end_time', '<=', $end_time);
             }
             return $query;
+    }
+
+    
+    public function appointmentForms()
+    {
+        return $this->hasMany(AppointmentForm::class);
     }
 
 }
