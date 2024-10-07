@@ -27,6 +27,11 @@ class AppointmentResource extends JsonResource
             "end_time"=>$this->slot->end_time,
             "position_id"=>$this->position->id,
             "title"=>$this->position->title,
+            "job_type"=>$this->position->job_type,
+            "status"=>$this->position->status,
+            "description"=>$this->position->description,
+            "post_date"=>$this->position->post_date,
+        
         ];
     }
 }

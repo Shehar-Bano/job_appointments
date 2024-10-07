@@ -18,5 +18,28 @@ class AppointmentForm extends Model
 {
     return $this->belongsTo(Slot::class);
 }
+
+public function scopeWhereEmail($query, $email){
+    if($email){
+        $query->where('email','like','%'.$email.'%');
+    }
+    return $query;
+}
+public function scopeWhereDate($query, $startDate = null, $endDate = null)
+{
+    if (!empty($startDate) && !empty($endDate)) {
+        return $query->whereBetween('date', [$startDate, $endDate]);
+    }
+
+    return $query;
+}
+
+    public function scopeWhereName($query, $name){
+        if($name){
+            $query->where('name','like','%'.$name.'%');
+            $query->orWhere('name','like','%'.$name.'%');
+            }
+            return $query;
+    }
 }
 
