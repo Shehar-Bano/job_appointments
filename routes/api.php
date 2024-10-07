@@ -45,7 +45,7 @@ Route::prefix('manage-appointment')->controller(ManageAppointmentController::cla
     Route::get('show/{id}','show');
 
     Route::post('update','update');
-    Route::post('delete/{id}','destroy');
+    Route::delete('delete/{id}','destroy');
 });
 
 
