@@ -26,7 +26,7 @@ class ManageAppointmentController extends Controller
             $name = $request->input('name');
             $position_id = $request->input('position_id');
 
-
+            dd($position_id);
             $appointments = $this->appointments->getAppointments(
                 $position_id,
                 $limit,
