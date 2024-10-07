@@ -1,6 +1,7 @@
 <?php
 namespace App\Actions;
 
+use App\Helpers\ResponseHelper;
 use App\Mail\AppointmentCancelled;
 use App\Models\AppointmentForm;
 use Illuminate\Support\Facades\Mail;
@@ -54,7 +55,7 @@ class ManageAppointmentsAction
             return false;
         }
         if($appointment->status == 'canceled'){
-            return false;
+            return ResponseHelper::error('You already canceled this appointment');
         }
         $appointment->status = 'canceled';
         $appointment->save();
