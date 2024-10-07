@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+
 <head>
     <title>Appointment Cancelled</title>
 </head>
