@@ -52,9 +52,9 @@ public function scopeWhereDate($query, $start_date = null, $end_date = null)
             }
             return $query;
     }
-    public function scopeWherePosition($query,$positionId){
-        if($positionId){
-            $query->where('position_id', $positionId);
+    public function scopeWherePosition($query,$position_id){
+        if($position_id){
+            $query->where('position_id','like','%'.$position_id.'%');
         }
         return $query;
     }

@@ -23,7 +23,8 @@ class ManageAppointmentController extends Controller
             $name=$request->input('name');
             $position_id=$request->input(' position_id');
 
-            $appointments = $this->appointments->getAppointments($limit, $start_date, $end_date,  $email, $name, $position_id);
+            $appointments = $this->appointments->getAppointments($limit, $start_date, $end_date,  $email,
+             $name, $position_id);
 
             if (!$appointments) {
                 return ResponseHelper::error('No appointments found', 404);
