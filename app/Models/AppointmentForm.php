@@ -25,13 +25,25 @@ public function scopeWhereEmail($query, $email){
     }
     return $query;
 }
-public function scopeWhereDate($query, $startDate, $endDate){
-    if($startDate && $endDate){
-        $query->where('date','like','%'.$startDate.'%');
-        $query->where('date','like','%'.$endDate.'%');
-        }
-        return $query;
+public function scopeWhereDate($query, $start_date = null, $end_date = null)
+{
+    if (!empty($start_date) && !empty($end_date)) {
+        // Use whereBetween for date filtering
+        return $query->whereBetween('date', [$start_date, $end_date]);
     }
+
+    // Optionally, if you want to handle cases where only one date is provided
+    if (!empty($start_date)) {
+        return $query->where('date', '>=', $start_date);
+    }
+
+    if (!empty($end_date)) {
+        return $query->where('date', '<=', $end_date);
+    }
+
+    return $query;
+}
+
     public function scopeWhereName($query, $name){
         if($name){
             $query->where('name','like','%'.$name.'%');
