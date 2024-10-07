@@ -61,6 +61,7 @@ class ManageAppointmentController extends Controller
             return ResponseHelper::error($e->getMessage(),500);
             }
     }
+ 
     public function destroy($id){
         try {
             $appointment=$this->appointments->destroy($id);
