@@ -4,7 +4,12 @@ use App\Models\AppointmentForm;
 
 class ManageAppointmentsAction
 {
-    public function getAppointments(){
-       return AppointmentForm::get();
-    }
+    public function getAppointments($limit){
+        $appointments= AppointmentForm::paginate($limit);
+        if(! $appointments){
+          return false;
+        }
+        return $appointments;
+  
+      }
 }
