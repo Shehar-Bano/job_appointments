@@ -1,16 +1,29 @@
 <?php
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+
+use App\Http\Controllers\SlotController;
+use App\Http\Controllers\PositionController;
 use App\Http\Controllers\AppointmentFormController;
 use App\Http\Controllers\ManageAppointmentController;
-use Illuminate\Http\Request;
-
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PositionController;
-use App\Http\Controllers\SlotController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
+
+Route::group(['prefix'=>'auth'], function ($router) {
+    Route::post('login', [AuthController::class,'login']);
+    Route::post('signup', [AuthController::class,'register']);
+    Route::get('list',[AuthController::class,'index']);
+});
+Route::middleware(['auth:api'])->group(function(){
+    Route::post('logout', [AuthController::class,'logout']);
+    Route::post('refresh', [AuthController::class,'refresh']);
+    Route::post('me', [AuthController::class,'me']);
+
+});
 
 Route::apiResource('slots',SlotController::class);
 
