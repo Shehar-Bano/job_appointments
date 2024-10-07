@@ -50,15 +50,14 @@ public function scopeWhereDate($query, $start_date = null, $end_date = null)
             $query->orWhere('name','like','%'.$name.'%');
             }
             return $query;
-    }
-    public function scopeWherePosition($query, $position_id = null)
+    }public function scopeWherePosition($query, $position_id = null)
     {
         if ($position_id) {
-           
             return $query->where('position_id', $position_id);
         }
         return $query;
     }
+    
     
 }
 

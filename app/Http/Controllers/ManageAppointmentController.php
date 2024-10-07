@@ -18,12 +18,13 @@ class ManageAppointmentController extends Controller
     public function index(Request $request)
     {
         try {
+
             $limit = $this->getValue($request->input('limit'));
             $start_date = $request->input('start_date');
             $end_date = $request->input('end_date');
             $email = $request->input('email');
             $name = $request->input('name');
-            $position_id = $request->input(' position_id');
+            $position_id = $request->input('position_id');
 
             $appointments = $this->appointments->getAppointments(
                 $limit,
