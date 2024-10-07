@@ -61,6 +61,19 @@ class ManageAppointmentController extends Controller
             return ResponseHelper::error($e->getMessage(),500);
             }
     }
+    public function destroy($id){
+        try {
+            $appointment=$this->appointments->destroy($id);
+            if (!$appointment) {
+                return ResponseHelper::error('Appointment not found', 404);
+                }
+             return ResponseHelper::successMessage('Appointment deleted SuccessFully',200);
+
+    }
+    catch (\Exception $e) {
+        return ResponseHelper::error($e->getMessage(),500);
+        }
+        }
 
     }
 
