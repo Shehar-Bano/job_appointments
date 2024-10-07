@@ -14,7 +14,7 @@ class AppointmentForm extends Model
         return $this->belongsTo(Position::class);
     }
 
-    public function slot()
+    public function timeSlot()
 {
     return $this->belongsTo(Slot::class);
 }
