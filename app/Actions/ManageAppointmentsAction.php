@@ -9,7 +9,7 @@ class ManageAppointmentsAction
 {
     public function getAppointments($position_id, $limit, $start_date, $end_date, $email, $name)
     {
-        dd($position_id);
+       
         $appointments = AppointmentForm::whereEmail($email)->whereName($name)->
             whereDate($start_date, $end_date)->wherePosition($position_id)->
             with(['position', 'slot'])->paginate($limit);
