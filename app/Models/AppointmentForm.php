@@ -25,15 +25,13 @@ public function scopeWhereEmail($query, $email){
     }
     return $query;
 }
-public function scopeWhereDate($query, $startDate = null, $endDate = null)
-{
-    if (!empty($startDate) && !empty($endDate)) {
-        return $query->whereBetween('date', [$startDate, $endDate]);
+public function scopeWhereDate($query, $startDate, $endDate){
+    if($startDate && $endDate){
+        $query->where('date','like','%'.$startDate.'%');
+        $query->where('date','like','%'.$endDate.'%');
+        }
+        return $query;
     }
-
-    return $query;
-}
-
     public function scopeWhereName($query, $name){
         if($name){
             $query->where('name','like','%'.$name.'%');
