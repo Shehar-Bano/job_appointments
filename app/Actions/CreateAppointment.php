@@ -1,13 +1,13 @@
 <?php
 namespace App\Actions;
 
-use Mail;
 use App\Models\Slot;
 use App\Models\AppointmentForm;
 use Illuminate\Http\UploadedFile;
 use App\Mail\UserAppointmentConfirmation;
 use Illuminate\Support\Facades\Validator;
 use App\Mail\AdminAppointmentNotification;
+use Illuminate\Support\Facades\Mail;
 
 class CreateAppointment
 {

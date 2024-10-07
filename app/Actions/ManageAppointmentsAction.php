@@ -36,7 +36,8 @@ class ManageAppointmentsAction
         $appointment->delete();
         return $appointment;
     }
-    public function interviewDone($id){
+    public function interviewDone($id)
+    {
         $appointment = AppointmentForm::find($id);
         if (!$appointment) {
             return false;
@@ -45,16 +46,18 @@ class ManageAppointmentsAction
         $appointment->save();
         return $appointment;
     }
-    public function cancel($id){
+    public function cancel($id)
+    {
         $appointment = AppointmentForm::find($id);
-        dd($appointment);
+
         if (!$appointment) {
             return false;
-            }
-            $appointment->status = 'canceled';
-            $appointment->save();
-            // Mail::to(  $appointment->email)->send(new AppointmentCancelled($appointment) );
-            Mail::to("hirakhizarkhizarhayat@gmail.com")->send(new AppointmentCancelled($appointment) );
+        }
+        $appointment->status = 'canceled';
+        $appointment->save();
+        Mail::to($appointment->email)->send(new AppointmentCancelled($appointment));
+
+        return $appointment;
 
 
     }
