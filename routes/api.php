@@ -28,7 +28,7 @@ Route::post('positions/change-status/{id}', [PositionController::class, 'changeS
 
 Route::prefix('manage-appointment')->controller(ManageAppointmentController::class)
 ->group(function () {
-    Route::post('list','index');
+    Route::get('list','index');
 
     Route::post('update','');
     Route::post('delete','');
