@@ -14,12 +14,19 @@ class ManageAppointmentController extends Controller
 
     }
     public function index(Request $request){
-      
+        try {
             $limit=$this->getValue($request->input('limit'));
-            return $this->appointments->getAppointments($limit);
-        
+            $appointments = $this->appointments->getAppointments($limit);
+            
+            if (!$appointments) {
+                return ResponseHelper::error('No appointments found', 404);
 
-       
+            }
+            return ResponseHelper::success($appointments, 200);
+
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), 500);
+        }
     }
         
     }
