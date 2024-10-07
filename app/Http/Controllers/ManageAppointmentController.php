@@ -28,12 +28,13 @@ class ManageAppointmentController extends Controller
 
 
             $appointments = $this->appointments->getAppointments(
+                $position_id,
                 $limit,
                 $start_date,
                 $end_date,
                 $email,
                 $name,
-                $position_id
+                
             );
 
             if (!$appointments) {

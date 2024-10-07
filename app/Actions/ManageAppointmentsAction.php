@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Mail;
 
 class ManageAppointmentsAction
 {
-    public function getAppointments($limit, $start_date, $end_date, $email, $name, $position_id)
+    public function getAppointments($position_id, $limit, $start_date, $end_date, $email, $name)
     {
         dd($position_id);
         $appointments = AppointmentForm::whereEmail($email)->whereName($name)->
