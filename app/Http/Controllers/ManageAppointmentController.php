@@ -47,6 +47,19 @@ class ManageAppointmentController extends Controller
             return ResponseHelper::error($e->getMessage(), 500);
         }
     }
-        
+    public function show($id){
+        try {
+            $appointment=$this->appointments->showAppointment($id);
+            if (!$appointment) {
+                return ResponseHelper::error('
+                Appointment not found', 404);
+                }
+                return ResponseHelper::success($appointment,200);
+                
+        }catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(),500);
+            }
+    }
+
     }
 

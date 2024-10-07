@@ -14,4 +14,11 @@ class ManageAppointmentsAction
         return $appointments;
   
       }
+      public function showAppointment($appointment_id){
+        $appointment= AppointmentForm::with(['position','slot'])->find($appointment_id);
+        if(!$appointment){
+            return false;
+        }
+        return $appointment;
+      }
 }

@@ -33,13 +33,11 @@ public function scopeWhereDate($query, $start_date = null, $end_date = null)
     }
 
     // Optionally, if you want to handle cases where only one date is provided
-    if (!empty($start_date)) {
-        return $query->where('date', '>=', $start_date);
+    if (!empty($start_date) || !empty($end_date)) {
+        return $query->where('date', '>=', $start_date)->orWhere('date', '<=', $end_date);
     }
 
-    if (!empty($end_date)) {
-        return $query->where('date', '<=', $end_date);
-    }
+ 
 
     return $query;
 }
