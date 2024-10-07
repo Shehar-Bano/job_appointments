@@ -100,8 +100,7 @@ class ManageAppointmentController extends Controller
         try {
             $appointment = $this->appointments->cancel($id);
             if (!$appointment) {
-                return ResponseHelper::error('
-                Appointment not found', 404);
+                return ResponseHelper::error('Appointment not found', 404);
             }
             return ResponseHelper::successMessage('Appointment cancelled successfully', 200);
         }
