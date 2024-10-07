@@ -98,6 +98,7 @@ class ManageAppointmentController extends Controller
 
     public function interviewCancel($id){
         try {
+           
             $appointment = $this->appointments->cancel($id);
             if (!$appointment) {
                 return ResponseHelper::error('Appointment not found', 404);

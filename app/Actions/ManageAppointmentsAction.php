@@ -47,6 +47,7 @@ class ManageAppointmentsAction
     }
     public function cancel($id){
         $appointment = AppointmentForm::find($id);
+        dd($appointment);
         if (!$appointment) {
             return false;
             }
