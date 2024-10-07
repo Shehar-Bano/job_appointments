@@ -26,6 +26,7 @@ class ManageAppointmentController extends Controller
             $name = $request->input('name');
             $position_id = $request->input('position_id');
 
+
             $appointments = $this->appointments->getAppointments(
                 $limit,
                 $start_date,
@@ -61,8 +62,7 @@ class ManageAppointmentController extends Controller
         try {
             $appointment = $this->appointments->showAppointment($id);
             if (!$appointment) {
-                return ResponseHelper::error('
-                Appointment not found', 404);
+                return ResponseHelper::error('Appointment not found', 404);
             }
             $data = new AppointmentResource($appointment);
             return ResponseHelper::success($data, 200);
