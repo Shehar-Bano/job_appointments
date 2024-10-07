@@ -103,9 +103,6 @@ class ManageAppointmentController extends Controller
             if (!$appointment) {
                 return ResponseHelper::error('Appointment not found', 404);
             }
-            if($appointment->status == 'canceled'){
-                return ResponseHelper::error('You already canceled this appointment');
-            }
             return ResponseHelper::successMessage('Appointment cancelled successfully', 200);
         }
         catch (\Exception $e) {
