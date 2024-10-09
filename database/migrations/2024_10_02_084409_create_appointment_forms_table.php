@@ -23,6 +23,7 @@ return new class extends Migration
             $table->longText('cover_letter');
             $table->string('resume');
             $table->date('date');
+            $table->softDeletes();
            $table->enum('status',["scheduled", "done","canceled"])->default("scheduled");
            
             $table->timestamps();

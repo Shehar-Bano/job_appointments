@@ -36,7 +36,7 @@ class Slot extends Model
     }
 
     
-    public function appointmentForms()
+    public function appointmentForm()
     {
         return $this->hasMany(AppointmentForm::class);
     }
