@@ -35,14 +35,14 @@ class SlotService
     }
     return $slot->update($validated);
     }
-   
+
 
 
     public function delete($id)
     {
         try {
             $slot = Slot::find($id);
-    
+
             if ($slot) {
                 $slot->delete();
                 return true;
@@ -54,6 +54,6 @@ class SlotService
         }
     }
 
-  
+
     }
 

@@ -31,7 +31,7 @@ class PositionController extends Controller
         'post_date' => $request->input('post_date'), // Ensure this is included
     ];
         $this->job->create($data);
-        return ResponseHelper::success("data stored successfully",200);
+        return ResponseHelper::success("data stored successfully",201);
     }
     public function show(string $id)
     {

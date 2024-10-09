@@ -24,9 +24,9 @@ class PositionStoreRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'job_type' => 'required|string|max:255',
-            'requirement' => 'required|array', // Expect an array for requirement
+            'requirement' => 'required', // Expect an array for requirement
             'description' => 'required|string',
-            
+
         ];
     }
     public function messages()
