@@ -24,19 +24,19 @@ class AppointmentFormController extends Controller
     return response()->json(['message' => 'Appointment does not exist'], 404);
 }
 
-    public function store(Request $request)
-    {
-        try {
-          $appointment= $this->appointments->execute($request);
-          if($appointment){
-            return response()->json(['message' => 'Appointment scheduled successfully'], 200);
-          }
-            return response()->json([ 'message' => 'Appointment already scheduled']);
-
-        } catch (\Exception $e) {
-            // Return a JSON response with the error message
-            return response()->json(['error' => $e->getMessage()], 500);
+public function store(Request $request)
+{
+    try {
+        $appointment = $this->appointments->execute($request);
+        if ($appointment) {
+            return response()->json(['message' => 'Appointment scheduled successfully','success'=>true], 201); // Change 200 to 201
         }
+        return response()->json(['message' => 'Appointment already scheduled'], 409);
+    } catch (\Exception $e) {
+        // Return a JSON response with the error message
+        return response()->json(['error' => $e->getMessage()], 500);
     }
+}
+
 
 }
