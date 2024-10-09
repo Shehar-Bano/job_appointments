@@ -47,19 +47,21 @@ class ManageAppointmentsAction
         $appointment->save();
         return $appointment;
     }
+
     public function cancel($id)
-    {
-        $appointment = AppointmentForm::find($id);
+{
+    $appointment = AppointmentForm::find($id);
 
-        if (!$appointment) {
-            return false;
-        }
-        $appointment->status = 'canceled';
-        $appointment->save();
-        Mail::to($appointment->email)->send(new AppointmentCancelled($appointment));
-
-        return $appointment;
-
-
+    if (!$appointment) {
+        return false;
     }
+    
+    $appointment->status = 'canceled';
+    $appointment->save();
+    
+    Mail::to($appointment->email)->send(new AppointmentCancelled($appointment));
+
+    return $appointment;
+}
+
 }
