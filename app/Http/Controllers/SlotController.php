@@ -18,11 +18,11 @@ class SlotController extends Controller
      */
     public function index(Request $request)
     {
-       
+
         $start_time=$request->input('start_time');
         $end_time=$request->input('end_time');
         $limit = $this->getValue($request->input('limit'));
-     
+
 
         $slots = $this->slot->fetchData($limit, $start_time,  $end_time );
 
@@ -35,7 +35,7 @@ class SlotController extends Controller
         $paginationData=[
             'Recode'=> $data,
             'Pagination_Limit'=>$data->count(),
-            
+
             'Current_Page'=> $data->currentPage(),
 
             'Total_Recode'=> $data->total(),
@@ -54,7 +54,7 @@ class SlotController extends Controller
 
         ]);
 
-    
+
         $slot = $this->slot->create($validated);
         if(!$slot){
             return response()->json([
@@ -63,7 +63,7 @@ class SlotController extends Controller
                 ],400);
         }
         return response()->json([
-      
+
             "success"=>true,
             "message"=> "Slot Created Successfully"
             ],200);
@@ -86,8 +86,8 @@ class SlotController extends Controller
             return response()->json(['message' =>  $e->getMessage(),], 500);
             }
   }
-        
-    
+
+
 
     /**
      * Update the specified resource in storage.
@@ -106,7 +106,7 @@ class SlotController extends Controller
                     "success"=>false
                     ],404);
                 }
-                
+
                 return response()->json([
                     "success"=>true,
                     "message"=>"Slot Updated Successfully"
@@ -119,7 +119,7 @@ class SlotController extends Controller
             "success"=>false
             ],500);
             }
-        
+
     }
 
     /**
@@ -127,15 +127,15 @@ class SlotController extends Controller
      */
     public function destroy(string $id)
     {
-       
+
         $deleted = $this->slot->delete($id);
-    
+
         if ($deleted) {
 
             return response()->json(["message" => "Slot Deleted Successfully","success" => true
             ], 200);
         } else {
-           
+
             return response()->json(["message" => "Slot Not Found", "success" => false], 404);
         }
     }
