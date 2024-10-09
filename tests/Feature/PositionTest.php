@@ -89,7 +89,7 @@ public function it_can_create_a_position()
         // Create a position
         $position = Position::factory()->create([
             'title' => 'Software Engineer',
-            'job_type' => 'full-Time',
+            'job_type' => 'full-time',
         ]);
 
         // Send request to fetch the position
@@ -100,7 +100,7 @@ public function it_can_create_a_position()
                  ->assertJson([
                      'id' => $position->id,
                      'title' => 'Software Engineer',
-                     'job_type' => 'Full-Time',
+                     'job_type' => 'Full-time',
                  ]);
     }
 
@@ -117,7 +117,7 @@ public function it_can_update_a_position()
     // Prepare valid update data
     $updatedData = [
         'title' => 'Senior Software Engineer',
-        'job_type' => 'full_time', 
+        'job_type' => 'full_time',
         'requirement' => ["Master's degree", "5+ years experience"],
         'description' => 'Responsible for leading the development team.',
         'post_date' => now()->toDateString(), // Ensure this is a valid date

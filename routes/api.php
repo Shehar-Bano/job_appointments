@@ -48,8 +48,6 @@ Route::prefix('appointment')->controller(AppointmentFormController::class)->grou
 });
 
 
-<<<<<<< HEAD
-=======
 Route::prefix('manage-appointment')->controller(ManageAppointmentController::class)
 ->group(function () {
     Route::get('list','index');
@@ -60,5 +58,4 @@ Route::prefix('manage-appointment')->controller(ManageAppointmentController::cla
 
 });
 
->>>>>>> ea2c68429b3ea3a9bf4357c1d02ac89e5e3c7eea
 
