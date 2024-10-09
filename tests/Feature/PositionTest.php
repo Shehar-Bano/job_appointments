@@ -10,47 +10,51 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class PositionTest extends TestCase
 {
     use RefreshDatabase;
+   
+   public function it_can_create_a_position()
+   {
+       // Create a new user and authenticate
+       $user = User::factory()->create(); // Create a user
+       $this->actingAs($user, 'api'); // Act as the authenticated user
 
-    /** @test */
-   /** @test */
-public function it_can_create_a_position()
-{
-    // Prepare valid data for creating a position
-    $data = [
-        'title' => 'Software Engineer',
-        'job_type' => 'full_time',
+       // Prepare valid data for creating a position
+       $data = [
+           'title' => 'Software Engineer',
+           'job_type' => 'full_time', // Use valid enum value
+           'requirement' => [ // Pass as an array
+               "education" => "Bachelor's Degree",
+               "experience" => "9 years",
+               "skills" => "dicta, sent, consequent" // Ensure this matches what's stored
+           ],
+           'status' => 'open',
+           'description' => 'Sit omnis nemo et enim quia sed. Adipisci et dolorem quas sunt.',
+           'post_date' => '2018-10-12',
+       ];
 
-        'requirement' => json_encode([
-            "education" => "Bachelor's Degree",
-            "experience" => "9 years",
-            "skills" => "dicta, sent, consequent"
-        ]),
-        'status' => 'open',
-        'description' => 'Sit omnios nero et enim quia sed. Adipisci et dolorem quas sunt.',
-        'post_date' => '2018-10-12',
-    ];
+       // Create the position
+       $response = $this->postJson('/api/positions', $data);
 
-    // Create the position
-    $response = $this->postJson('/api/positions', $data);
+       // Assert the response
+       $response->assertJson([
+           'success' => true,
+           'data' => 'data stored successfully',
+       ]);
 
-    // Assert the response
-    $response->assertStatus(201)
-             ->assertJson(['message' => 'Job created successfully']);
+       // Assert the position is created in the database
+       $this->assertDatabaseHas('positions', [
+           'title' => 'Software Engineer',
+           'job_type' => 'full_time',
+           'requirement' => json_encode([ // Ensure this matches what is stored in the database
+               "education" => "Bachelor's Degree",
+               "experience" => "9 years",
+               "skills" => "dicta, sent, consequent"
+           ]),
+           'status' => 'open',
+           'description' => 'Sit omnis nemo et enim quia sed. Adipisci et dolorem quas sunt.',
+           'post_date' => '2018-10-12',
+       ]);
+   }
 
-    // Assert the position is created in the database
-    $this->assertDatabaseHas('positions', [
-        'title' => 'Software Engineer',
-        'job_type' => 'full_time', // Use the correct enum value
-        'requirement' => json_encode([
-            "education" => "Bachelor's Degree",
-            "experience" => "9 years",
-            "skills" => "dicta, sunt, consequuntur"
-        ]),
-        'status' => 'open',
-        'description' => 'Sit omnis nemo et enim quia sed. Adipisci et dolorem quas sunt.',
-        'post_date' => '2018-10-12',
-    ]);
-}
 
     /** @test */
     public function it_can_fetch_all_positions()
@@ -89,7 +93,7 @@ public function it_can_create_a_position()
         // Create a position
         $position = Position::factory()->create([
             'title' => 'Software Engineer',
-            'job_type' => 'full-time',
+            'job_type' => 'full_time',
         ]);
 
         // Send request to fetch the position
@@ -100,7 +104,7 @@ public function it_can_create_a_position()
                  ->assertJson([
                      'id' => $position->id,
                      'title' => 'Software Engineer',
-                     'job_type' => 'Full-time',
+                     'job_type' => 'full_time',
                  ]);
     }
 

@@ -13,7 +13,7 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::group(['prefix' => 'auth'], function ($router) {
+Route::group(['prefix' => 'auth'], function () {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('signup', [AuthController::class, 'register']);
     Route::get('list', [AuthController::class, 'index']);
@@ -49,7 +49,7 @@ Route::prefix('appointment')->controller(AppointmentFormController::class)->grou
 
 
 Route::prefix('manage-appointment')->controller(ManageAppointmentController::class)
-->group(function () {
+    ->group(function () {
     Route::get('list','index');
     Route::get('show/{id}','show');
     Route::delete('delete/{id}','destroy');
