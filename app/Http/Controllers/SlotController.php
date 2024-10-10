@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 use App\Http\Resources\SlotResource;
 use App\Services\SlotService;
 use Illuminate\Http\Request;
-use Tymon\JWTAuth\Facades\JWTAuth; 
 
 /**
  * @OA\Info(title="Interview Appointment API", version="1.0.0")
@@ -69,7 +68,7 @@ class SlotController extends Controller
     public function __construct(SlotService $slotService)
     {
         $this->slot = $slotService;
-        $this->middleware('auth:api');
+        
     }
 
     /**
