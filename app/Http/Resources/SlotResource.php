@@ -16,9 +16,9 @@ class SlotResource extends JsonResource
     {
         return [
 
-            "id"=> $this->id,
-            "start_time"=>$this->start_time,
-            "end_time"=>$this->end_time
+            'id' => $this->id,
+            'start_time' => $this->start_time,
+            'end_time' => $this->end_time,
 
         ];
     }

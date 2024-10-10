@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Factories;
 
 use App\Models\Position;
@@ -15,7 +16,7 @@ class PositionFactory extends Factory
             'job_type' => $this->faker->randomElement(['full_time', 'part_time']),
             'requirement' => json_encode([
                 'education' => $this->faker->randomElement(['Bachelor\'s Degree', 'Master\'s Degree', 'High School Diploma']),
-                'experience' => $this->faker->numberBetween(1, 10) . ' years',
+                'experience' => $this->faker->numberBetween(1, 10).' years',
                 'skills' => implode(', ', $this->faker->words(3)),
             ]),
             'status' => $this->faker->randomElement(['open', 'close']),

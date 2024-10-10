@@ -21,8 +21,7 @@ class UserAppointmentConfirmation extends Mailable implements ShouldQueue
     public function build()
     {
         return $this->subject('Appointment Confirmation')
-                    ->view('emails.user_confirmation')
-                    ->with(['appointment' => $this->appointment]);
+            ->view('emails.user_confirmation')
+            ->with(['appointment' => $this->appointment]);
     }
-
 }

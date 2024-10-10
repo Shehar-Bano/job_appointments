@@ -21,7 +21,7 @@ class AdminAppointmentNotification extends Mailable implements ShouldQueue
     public function build()
     {
         return $this->subject('New Appointment Scheduled')
-                    ->view('emails.admin_notification')
-                    ->with(['appointment' => $this->appointment]);
+            ->view('emails.admin_notification')
+            ->with(['appointment' => $this->appointment]);
     }
 }

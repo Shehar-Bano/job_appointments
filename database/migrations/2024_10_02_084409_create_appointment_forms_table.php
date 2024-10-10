@@ -24,8 +24,8 @@ return new class extends Migration
             $table->string('resume');
             $table->date('date');
             $table->softDeletes();
-           $table->enum('status',["scheduled", "done","canceled"])->default("scheduled");
-           
+            $table->enum('status', ['scheduled', 'done', 'canceled'])->default('scheduled');
+
             $table->timestamps();
         });
     }

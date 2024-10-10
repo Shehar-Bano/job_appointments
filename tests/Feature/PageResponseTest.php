@@ -2,10 +2,9 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use App\Models\User;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class PageResponseTest extends TestCase
 {
@@ -23,22 +22,22 @@ class PageResponseTest extends TestCase
 
     /** @test */
     public function test_login_page_returns_successful_response()
-{
-    // Create a user with known credentials
-    $user = User::factory()->create([
-        'email' => 'your_email@example.com', // Adjust to match your expectations
-        'password' => bcrypt('password'), // Ensure the password is hashed
-    ]);
+    {
+        // Create a user with known credentials
+        $user = User::factory()->create([
+            'email' => 'your_email@example.com', // Adjust to match your expectations
+            'password' => bcrypt('password'), // Ensure the password is hashed
+        ]);
 
-    // Make a POST request to the login route with valid credentials
-    $response = $this->post('/api/auth/login', [
-        'email' => 'your_email@example.com', // Use the same email
-        'password' => 'password', // Use the same password
-    ]);
+        // Make a POST request to the login route with valid credentials
+        $response = $this->post('/api/auth/login', [
+            'email' => 'your_email@example.com', // Use the same email
+            'password' => 'password', // Use the same password
+        ]);
 
-    // Assert that the response is successful (200 or redirect)
-    $response->assertStatus(200); // Adjust to assertStatus(302) if it redirects after login
-}
+        // Assert that the response is successful (200 or redirect)
+        $response->assertStatus(200); // Adjust to assertStatus(302) if it redirects after login
+    }
 
     /** @test */
     public function test_non_existing_page_returns_404()

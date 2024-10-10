@@ -1,12 +1,11 @@
 <?php
+
 namespace App\Actions;
 
-use App\Models\Slot;
+use App\Mail\AdminAppointmentNotification;
+use App\Mail\UserAppointmentConfirmation;
 use App\Models\AppointmentForm;
 use Illuminate\Http\UploadedFile;
-use App\Mail\UserAppointmentConfirmation;
-use Illuminate\Support\Facades\Validator;
-use App\Mail\AdminAppointmentNotification;
 use Illuminate\Support\Facades\Mail;
 
 class CreateAppointment
@@ -16,15 +15,12 @@ class CreateAppointment
         $date = $request->input('date');
         $slotId = $request->input('slot_id');
 
-
         $existingAppointment = AppointmentForm::where('slot_id', $slotId)
             ->where('date', $date)
             ->first();
 
-
         return $existingAppointment ? true : false;
     }
-
 
     public function execute($request)
     {
@@ -58,5 +54,4 @@ class CreateAppointment
             'success' => true,
         ], 201);
     }
-
 }

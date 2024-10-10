@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use App\Models\Slot;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class SlotTest extends TestCase
 {
@@ -23,10 +23,10 @@ class SlotTest extends TestCase
         ]);
 
         $response->assertStatus(200)
-                 ->assertJson([
-                     'success' => true,
-                     'message' => 'Slot Created Successfully'
-                 ]);
+            ->assertJson([
+                'success' => true,
+                'message' => 'Slot Created Successfully',
+            ]);
 
         $this->assertDatabaseHas('slots', [
             'start_time' => '10:00:00',
@@ -45,16 +45,16 @@ class SlotTest extends TestCase
             'end_time' => '11:00:00',
         ]);
 
-        $response = $this->getJson('/api/slots/' . $slot->id);
+        $response = $this->getJson('/api/slots/'.$slot->id);
 
         $response->assertStatus(200)
-                 ->assertJson([
-                     'data' => [
-                         'start_time' => '10:00:00',
-                         'end_time' => '11:00:00',
-                     ],
-                     'success' => true
-                 ]);
+            ->assertJson([
+                'data' => [
+                    'start_time' => '10:00:00',
+                    'end_time' => '11:00:00',
+                ],
+                'success' => true,
+            ]);
     }
 
     /** @test */
@@ -68,16 +68,16 @@ class SlotTest extends TestCase
             'end_time' => '11:00:00',
         ]);
 
-        $response = $this->putJson('/api/slots/' . $slot->id, [
+        $response = $this->putJson('/api/slots/'.$slot->id, [
             'start_time' => '12:00:00',
             'end_time' => '13:00:00',
         ]);
 
         $response->assertStatus(200)
-                 ->assertJson([
-                     'success' => true,
-                     'message' => 'Slot Updated Successfully'
-                 ]);
+            ->assertJson([
+                'success' => true,
+                'message' => 'Slot Updated Successfully',
+            ]);
 
         $this->assertDatabaseHas('slots', [
             'start_time' => '12:00:00',
@@ -93,13 +93,13 @@ class SlotTest extends TestCase
             'id' => $slot->id,
         ]);
 
-        $response = $this->deleteJson('/api/slots/' . $slot->id);
+        $response = $this->deleteJson('/api/slots/'.$slot->id);
 
         $response->assertStatus(200)
-                 ->assertJson([
-                     'message' => 'Slot Deleted Successfully',
-                     'success' => true,
-                 ]);
+            ->assertJson([
+                'message' => 'Slot Deleted Successfully',
+                'success' => true,
+            ]);
 
         // Dump the current state of the slots table for debugging
         dump(Slot::all()->toArray());
@@ -108,9 +108,6 @@ class SlotTest extends TestCase
             'id' => $slot->id,
         ]);
     }
-
-
-
 
     // public function test_it_can_list_all_slots()
     // {
@@ -138,6 +135,5 @@ class SlotTest extends TestCase
     //                  ]
     //              ]);
     // }
-
 
 }

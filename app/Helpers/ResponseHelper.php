@@ -3,7 +3,6 @@
 namespace App\Helpers;
 
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Mail;
 
 class ResponseHelper
 {
@@ -15,12 +14,12 @@ class ResponseHelper
             'data' => $data,
         ], $statusCode);
     }
+
     public static function successMessage(string $message = 'Operation successful', int $statusCode = 200): JsonResponse
     {
         return response()->json([
             'success' => true,
             'message' => $message,
-
 
         ], $statusCode);
     }
@@ -33,6 +32,4 @@ class ResponseHelper
             'error' => $error,
         ], $statusCode);
     }
-
-
 }

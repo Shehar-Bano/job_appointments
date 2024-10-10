@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use App\Repositories\PositionRepository;
-use Illuminate\Support\ServiceProvider;
 use App\Repositories\PositionRepositoryInterface;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {

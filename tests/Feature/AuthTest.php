@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class AuthTest extends TestCase
 {
@@ -16,16 +16,16 @@ class AuthTest extends TestCase
         $response = $this->postJson('/api/auth/signup', [
             'name' => 'Test User',
             'email' => 'test@example.com',
-            'password' => 'password'
+            'password' => 'password',
         ]);
 
         $response->assertStatus(200)
-                 ->assertJsonStructure([
-                     'access_token', 'token_type', 'expires_in'
-                 ]);
+            ->assertJsonStructure([
+                'access_token', 'token_type', 'expires_in',
+            ]);
 
         $this->assertDatabaseHas('users', [
-            'email' => 'test@example.com'
+            'email' => 'test@example.com',
         ]);
     }
 
@@ -34,7 +34,7 @@ class AuthTest extends TestCase
     {
         $user = User::factory()->create([
             'email' => 'test@example.com',
-            'password' => bcrypt('password')
+            'password' => bcrypt('password'),
         ]);
 
         $response = $this->postJson('/api/auth/login', [
@@ -43,9 +43,9 @@ class AuthTest extends TestCase
         ]);
 
         $response->assertStatus(200)
-                 ->assertJsonStructure([
-                     'access_token', 'token_type', 'expires_in'
-                 ]);
+            ->assertJsonStructure([
+                'access_token', 'token_type', 'expires_in',
+            ]);
     }
 
     /** @test */
@@ -53,15 +53,15 @@ class AuthTest extends TestCase
     {
         $user = User::factory()->create([
             'email' => 'test@example.com',
-            'password' => bcrypt('password')
+            'password' => bcrypt('password'),
         ]);
 
         // Login to get the token
         $token = auth('api')->attempt(['email' => 'test@example.com', 'password' => 'password']);
-        $this->withHeaders(['Authorization' => 'Bearer ' . $token])
-             ->postJson('/api/logout')
-             ->assertStatus(200)
-             ->assertJson(['message' => 'Successfully logged out']);
+        $this->withHeaders(['Authorization' => 'Bearer '.$token])
+            ->postJson('/api/logout')
+            ->assertStatus(200)
+            ->assertJson(['message' => 'Successfully logged out']);
     }
 
     /** @test */
@@ -70,10 +70,10 @@ class AuthTest extends TestCase
         $user = User::factory()->create();
 
         $token = auth('api')->attempt(['email' => $user->email, 'password' => 'password']);
-        $response = $this->withHeaders(['Authorization' => 'Bearer ' . $token])
-                         ->postJson('/api/me');
+        $response = $this->withHeaders(['Authorization' => 'Bearer '.$token])
+            ->postJson('/api/me');
 
         $response->assertStatus(200)
-                 ->assertJson(['id' => $user->id, 'email' => $user->email]);
+            ->assertJson(['id' => $user->id, 'email' => $user->email]);
     }
 }
