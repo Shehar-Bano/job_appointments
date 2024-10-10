@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
-
+Route::middleware(['ip.check'])->group(function () {
 Route::group(['prefix' => 'auth'], function () {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('signup', [AuthController::class, 'register']);
@@ -32,15 +32,8 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('positions/change-status/{id}', [PositionController::class, 'changeStatus']);
 
 
-});
-
-Route::prefix('appointment')->controller(AppointmentFormController::class)->group(function () {
-    Route::post('create', 'store');
-    Route::post('check-existence', 'existingAppointment');
-
-});
-
-Route::prefix('manage-appointment')->controller(ManageAppointmentController::class)
+    
+    Route::prefix('manage-appointment')->controller(ManageAppointmentController::class)
     ->group(function () {
         Route::get('list', 'index');
         Route::get('show/{id}', 'show');
@@ -49,3 +42,16 @@ Route::prefix('manage-appointment')->controller(ManageAppointmentController::cla
         Route::get('interview-done/{id}', 'interviewDone');
 
     });
+
+
+});
+
+Route::prefix('appointment')->controller(AppointmentFormController::class)->group(function () {
+    Route::post('create', 'store');
+    Route::post('check-existence', 'existingAppointment');
+
+});
+
+
+
+});
