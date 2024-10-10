@@ -7,11 +7,11 @@ use App\Http\Controllers\PositionController;
 use App\Http\Controllers\SlotController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+// Route::middleware(['ip.check'])->group(function () {
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
-Route::middleware(['ip.check'])->group(function () {
+
 Route::group(['prefix' => 'auth'], function () {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('signup', [AuthController::class, 'register']);
@@ -32,7 +32,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('positions/change-status/{id}', [PositionController::class, 'changeStatus']);
 
 
-    
+
     Route::prefix('manage-appointment')->controller(ManageAppointmentController::class)
     ->group(function () {
         Route::get('list', 'index');
@@ -52,6 +52,4 @@ Route::prefix('appointment')->controller(AppointmentFormController::class)->grou
 
 });
 
-
-
-});
+// });
