@@ -1,13 +1,11 @@
 <?php
 
-
 namespace Database\Factories;
 
 use App\Models\AppointmentForm;
 use App\Models\Position;
 use App\Models\Slot;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 class AppointmentFormFactory extends Factory
 {
@@ -27,11 +25,9 @@ class AppointmentFormFactory extends Factory
             'email' => $this->faker->safeEmail(),
             'contact' => $this->faker->phoneNumber(),
             'cover_letter' => $this->faker->paragraph(3),
-            'resume' => 'resumes/' . $this->faker->uuid() . '.pdf', // Example resume path
+            'resume' => 'resumes/'.$this->faker->uuid().'.pdf', // Example resume path
             'date' => $this->faker->date('Y-m-d'),
             'status' => $this->faker->randomElement(['scheduled', 'done', 'canceled']),
         ];
     }
 }
-
-

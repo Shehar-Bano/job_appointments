@@ -29,6 +29,7 @@ class PositionStoreRequest extends FormRequest
 
         ];
     }
+
     public function messages()
     {
         return [

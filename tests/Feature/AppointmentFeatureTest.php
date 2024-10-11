@@ -2,31 +2,23 @@
 
 namespace Tests\Feature;
 
+use App\Mail\AppointmentCancelled;
 use App\Models\AppointmentForm;
 use App\Models\Position;
 use App\Models\Slot;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Facade;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Log;
-use App\Mail\UserAppointmentConfirmation;
-use App\Mail\AdminAppointmentNotification;
-use App\Mail\AppointmentCancelled;
-
-
 
 class AppointmentFeatureTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected $user;
-    
-    protected $position;
-    
-    protected $slot;
+    protected User $user;         // Specify type for $user
+    protected Position $position;  // Specify type for $position
+    protected Slot $slot;          // Specify type for $slot
 
     protected function setUp(): void
     {
@@ -38,55 +30,53 @@ class AppointmentFeatureTest extends TestCase
         $this->slot = Slot::factory()->create();
     }
 
-    /** @test *//** @test */
+    /** @test */
+    public function it_can_create_an_appointment(): void  // Specify return type
+    {
+        // Sample data for the appointment
+        $data = [
+            'position_id' => $this->position->id,
+            'slot_id' => $this->slot->id,
+            'name' => 'John Doe',
+            'email' => 'john@example.com',
+            'contact' => '1234567890',
+            'cover_letter' => 'Sample cover letter',
+            'resume' => UploadedFile::fake()->create('resume.pdf', 100),
+            'date' => now()->format('Y-m-d'),
+        ];
 
-    
-/** @test */
-public function it_can_create_an_appointment()
-{
-    // Sample data for the appointment
-    $data = [
-        'position_id' => $this->position->id,
-        'slot_id' => $this->slot->id,
-        'name' => 'John Doe',
-        'email' => 'john@example.com',
-        'contact' => '1234567890',
-        'cover_letter' => 'Sample cover letter',
-        'resume' => UploadedFile::fake()->create('resume.pdf', 100),
-        'date' => now()->format('Y-m-d'),
-    ];
+        // Start listening for mail
+        Mail::fake();
 
-    // Start listening for mail
-    Mail::fake();
+        $response = $this->actingAs($this->user)->postJson('/api/appointment/create', $data);
 
-    $response = $this->actingAs($this->user)->postJson('/api/appointment/create', $data);
-    
-    // Assert the appointment was created
-    $response->assertStatus(201)
-             ->assertJson([
-                 'message' => 'Appointment scheduled successfully', // Removed period here as well
-                 'success' => true, // Ensure this is included
-             ]);
-}
+        // Assert the appointment was created
+        $response->assertStatus(201)
+            ->assertJson([
+                'message' => 'Appointment scheduled successfully',
+                'success' => true,
+            ]);
+    }
 
     /** @test */
-    public function it_can_list_appointments()
+    public function it_can_list_appointments(): void  // Specify return type
     {
         // Create an appointment
-         AppointmentForm::factory()->create(['email' => 'john@example.com']);
+        AppointmentForm::factory()->create(['email' => 'john@example.com']);
 
         // Authenticate the user
         $response = $this->actingAs($this->user)->getJson('/api/manage-appointment/list');
 
         // Assert the appointment is in the response
         $response->assertStatus(200)
-                 ->assertJsonFragment(['email' => 'john@example.com']);
+            ->assertJsonFragment(['email' => 'john@example.com']);
     }
 
     /** @test */
-    public function it_can_show_an_appointment()
+    public function it_can_show_an_appointment(): void  // Specify return type
     {
         // Create an appointment
+        /** @var AppointmentForm $appointment */
         $appointment = AppointmentForm::factory()->create();
 
         // Authenticate the user
@@ -94,100 +84,98 @@ public function it_can_create_an_appointment()
 
         // Assert the appointment is shown
         $response->assertStatus(200)
-                 ->assertJsonFragment(['id' => $appointment->id]);
+            ->assertJsonFragment(['id' => $appointment->id]);
     }
 
     /** @test */
-   /** @test */
-/** @test */
-public function it_can_cancel_an_appointment()
-{
-    // Create an appointment
-    $appointment = AppointmentForm::factory()->create(['status' => 'scheduled']); // Assuming a 'scheduled' status for initial state
+    public function it_can_cancel_an_appointment(): void  // Specify return type
+    {
+        // Create an appointment
+        /** @var AppointmentForm $appointment */
+        $appointment = AppointmentForm::factory()->create(['status' => 'scheduled']); // Assuming a 'scheduled' status for initial state
 
-    // Start listening for mail
-    Mail::fake();
+        // Start listening for mail
+        Mail::fake();
 
-    // Authenticate the user
-    $response = $this->actingAs($this->user)->getJson('/api/manage-appointment/interview-cancel/' . $appointment->id);
+        // Authenticate the user
+        $response = $this->actingAs($this->user)->getJson('/api/manage-appointment/interview-cancel/' . $appointment->id);
 
-    // Assert the appointment status is 'canceled'
-    $this->assertDatabaseHas('appointment_forms', [
-        'id' => $appointment->id,
-        'status' => 'canceled',
-    ]);
+        // Assert the appointment status is 'canceled'
+        $this->assertDatabaseHas('appointment_forms', [
+            'id' => $appointment->id,
+            'status' => 'canceled',
+        ]);
 
-    $response->assertStatus(200)
-             ->assertJson(['message' => 'Appointment cancelled successfully']);
+        $response->assertStatus(200)
+            ->assertJson(['message' => 'Appointment cancelled successfully']);
 
-    // Assert that the cancellation email was sent to the user
-    Mail::assertSent(AppointmentCancelled::class, function ($mail) use ($appointment) {
-        return $mail->hasTo($appointment->email);
-    });
-}
-
+        // Assert that the cancellation email was sent to the user
+        Mail::assertSent(AppointmentCancelled::class, function ($mail) use ($appointment) {
+            return $mail->hasTo($appointment->email); // Ensure that the email attribute is accessible
+        });
+    }
 
     /** @test */
+    public function it_can_delete_an_appointment(): void  // Specify return type
+    {
+        // Create an appointment
+        /** @var AppointmentForm $appointment */
+        $appointment = AppointmentForm::factory()->create();
+
+        // Authenticate the user
+        $response = $this->actingAs($this->user)->deleteJson('/api/manage-appointment/delete/' . $appointment->id);
+
+        // Assert the appointment is soft deleted
+        $this->assertSoftDeleted('appointment_forms', [
+            'id' => $appointment->id,
+        ]);
+
+        $response->assertStatus(200)
+            ->assertJson(['message' => 'Appointment deleted Successfully']);
+    }
+
     /** @test */
-public function it_can_delete_an_appointment()
-{
-    // Create an appointment
-    $appointment = AppointmentForm::factory()->create();
+    public function it_checks_if_appointment_exists(): void  // Specify return type
+    {
+        // Create an appointment in the database
+        /** @var AppointmentForm $appointment */
+        $appointment = AppointmentForm::factory()->create([
+            'slot_id' => $this->slot->id, // Use the created slot
+            'date' => now()->format('Y-m-d'), // Use today's date for the appointment
+        ]);
 
-    // Authenticate the user
-    $response = $this->actingAs($this->user)->deleteJson('/api/manage-appointment/delete/' . $appointment->id);
+        // Sample data to check for existence
+        $data = [
+            'slot_id' => $appointment->slot_id, // Same slot_id as the created appointment
+            'date' => $appointment->date, // Same date as the created appointment
+        ];
 
-    // Assert the appointment is soft deleted
-    $this->assertSoftDeleted('appointment_forms', [
-        'id' => $appointment->id,
-    ]);
+        // Call the existingAppointment method
+        $response = $this->postJson('/api/appointment/check-existence', $data);
 
-    $response->assertStatus(200)
-             ->assertJson(['message' => 'Appointment deleted Successfully']);
-}
-/** @test */
-public function it_checks_if_appointment_exists()
-{
-    // Create an appointment in the database
-    $appointment = AppointmentForm::factory()->create([
-        'slot_id' => $this->slot->id, // Use the created slot
-        'date' => now()->format('Y-m-d'), // Use today's date for the appointment
-    ]);
+        // Assert that the appointment exists
+        $response->assertStatus(409) // 409 Conflict
+            ->assertJson([
+                'message' => 'Appointment already scheduled',
+            ]);
+    }
 
-    // Sample data to check for existence
-    $data = [
-        'slot_id' => $appointment->slot_id, // Same slot_id as the created appointment
-        'date' => $appointment->date, // Same date as the created appointment
-    ];
+    /** @test */
+    public function it_checks_if_appointment_does_not_exist(): void  // Specify return type
+    {
+        // Sample data to check for existence
+        $data = [
+            'slot_id' => 1, // Assuming this slot_id doesn't exist in the database
+            'date' => now()->format('Y-m-d'), // Today's date
+        ];
 
-    // Call the existingAppointment method
-    $response = $this->postJson('/api/appointment/check-existence', $data);
+        // Call the existingAppointment method
+        $response = $this->postJson('/api/appointment/check-existence', $data);
 
-    // Assert that the appointment exists
-    $response->assertStatus(409) // 409 Conflict
-             ->assertJson([
-                 'message' => 'Appointment already scheduled',
-             ]);
-}
-
-/** @test */
-public function it_checks_if_appointment_does_not_exist()
-{
-    // Sample data to check for existence
-    $data = [
-        'slot_id' => 1, // Assuming this slot_id doesn't exist in the database
-        'date' => now()->format('Y-m-d'), // Today's date
-    ];
-
-    // Call the existingAppointment method
-    $response = $this->postJson('/api/appointment/check-existence', $data);
-
-    // Assert that the appointment does not exist
-    $response->assertStatus(404) // 404 Not Found
-             ->assertJson([
-                 'message' => 'Appointment does not exist',
-             ]);
-}
-/** @test */
-
+        // Assert that the appointment does not exist
+        $response->assertStatus(404) // 404 Not Found
+            ->assertJson([
+                'message' => 'Appointment does not exist',
+            ]);
+    }
 }

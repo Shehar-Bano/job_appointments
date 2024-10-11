@@ -2,12 +2,10 @@
 
 namespace App\Actions;
 
-use App\Models\Slot;
+use App\Mail\AdminAppointmentNotification;
+use App\Mail\UserAppointmentConfirmation;
 use App\Models\AppointmentForm;
 use Illuminate\Http\UploadedFile;
-use App\Mail\UserAppointmentConfirmation;
-use Illuminate\Support\Facades\Validator;
-use App\Mail\AdminAppointmentNotification;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 
@@ -31,13 +29,8 @@ class CreateAppointment
         return $existingAppointment ? true : false;
     }
 
-    /**
-     * Execute the creation of an appointment.
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function execute(Request $request)
+
+    public function execute($request)
     {
         $validated = $request->validate([
             'position_id' => 'required|exists:positions,id',

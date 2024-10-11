@@ -1,0 +1,1374 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Interview Appointment API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/appointment/create": {
+            "post": {
+                "tags": [
+                    "Appointment Form"
+                ],
+                "summary": "Create an appointment",
+                "description": "API Endpoints for applicant to scheduled appointments for interview",
+                "operationId": "5c9a6922d3dfd4e60e5676d3b9a84bd2",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AppointmentForm"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Appointment scheduled successfully"
+                    },
+                    "409": {
+                        "description": "Appointment already scheduled"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/appointment/check-existence": {
+            "post": {
+                "tags": [
+                    "Appointment"
+                ],
+                "summary": "Check if an appointment already exists",
+                "operationId": "4b7665f23fce40edc16ab839c8d86282",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "date",
+                                    "slot_id"
+                                ],
+                                "properties": {
+                                    "date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-10-15"
+                                    },
+                                    "slot_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Appointment does not exist"
+                    },
+                    "404": {
+                        "description": "Appointment already scheduled"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/auth/list": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Get a list of all users",
+                "operationId": "ecf25d3c9f97b5c324d645863ca2edf6",
+                "responses": {
+                    "200": {
+                        "description": "List of all users retrieved successfully"
+                    }
+                }
+            }
+        },
+        "/api/auth/signup": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register a new user",
+                "operationId": "887d1dd2c4a5b34ac964b762c9555432",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "johndoe@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User registered successfully"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login a user",
+                "operationId": "8dcb70df1020986038d098cc08d05dae",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "johndoe@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User logged in successfully"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/api/auth/me": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Get the authenticated user",
+                "operationId": "b9abb1a7a74670a19c215c2c133f14d8",
+                "responses": {
+                    "200": {
+                        "description": "Authenticated user retrieved successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Logout a user",
+                "operationId": "69281b12abb272c76871f19cb17ca563",
+                "responses": {
+                    "200": {
+                        "description": "Successfully logged out"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/refresh": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Get new token after refresh",
+                "operationId": "faa311fecb173295e6a05397b7d3945d",
+                "responses": {
+                    "200": {
+                        "description": "New access token retrieved successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Refresh token",
+                "operationId": "b2eae7a8032954d25b46c7ec6f489c68",
+                "responses": {
+                    "200": {
+                        "description": "Token refreshed successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/manage-appointment/list": {
+            "get": {
+                "tags": [
+                    "Manage Appointment"
+                ],
+                "summary": "Get a list of appointments",
+                "operationId": "c0841917f521ece94a5e4bf99a83e539",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    },
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2024-10-01"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2024-10-31"
+                        }
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "email",
+                            "example": "john@example.com"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "John Doe"
+                        }
+                    },
+                    {
+                        "name": "position_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of appointments retrieved successfully"
+                    },
+                    "404": {
+                        "description": "No appointments found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/manage-appointment/show/{id}": {
+            "get": {
+                "tags": [
+                    "Manage Appointment"
+                ],
+                "summary": "Show appointment details",
+                "operationId": "f32caad11d512619d90b51653662ae92",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Appointment details retrieved successfully"
+                    },
+                    "404": {
+                        "description": "Appointment not found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/manage-appointment/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "Manage Appointment"
+                ],
+                "summary": "Delete an appointment",
+                "operationId": "043fbe1f695bcf451f377fa403ee4824",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Appointment deleted successfully"
+                    },
+                    "404": {
+                        "description": "Appointment not found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/manage-appointment/interview-done/{id}": {
+            "get": {
+                "tags": [
+                    "Manage Appointment"
+                ],
+                "summary": "Mark an interview as done",
+                "operationId": "4e161b13dd409258d052450f4184e151",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Interview marked as done successfully"
+                    },
+                    "404": {
+                        "description": "Appointment not found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/manage-appointment/interview-cancel/{id}": {
+            "get": {
+                "tags": [
+                    "Manage Appointment"
+                ],
+                "summary": "Cancel an interview",
+                "operationId": "ce5ba5cf440d29ba68b3d84c343ca98d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Interview canceled successfully"
+                    },
+                    "404": {
+                        "description": "Appointment not found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/positions": {
+            "get": {
+                "tags": [
+                    "Position"
+                ],
+                "summary": "Get a list of job positions",
+                "operationId": "979e46c0161e2570ef5478434095cb31",
+                "responses": {
+                    "200": {
+                        "description": "List of job positions retrieved successfully"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Position"
+                ],
+                "summary": "Store a new job position",
+                "operationId": "8b47544f5112eedfa8e15bfa7d23ba46",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "job_type",
+                                    "requirement",
+                                    "description",
+                                    "post_date"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Software Engineer"
+                                    },
+                                    "job_type": {
+                                        "type": "string",
+                                        "example": "Full-time"
+                                    },
+                                    "requirement": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "example": [
+                                            "Bachelor's degree in Computer Science",
+                                            "3+ years of experience"
+                                        ]
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Responsible for developing applications."
+                                    },
+                                    "post_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-10-10"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Job position stored successfully"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
+        "/api/positions/{id}": {
+            "get": {
+                "tags": [
+                    "Position"
+                ],
+                "summary": "Get job position details",
+                "operationId": "02987e1d2529f90862c1e6ebeed617a5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "1"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Job position retrieved successfully"
+                    },
+                    "404": {
+                        "description": "Job position not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Position"
+                ],
+                "summary": "Update a job position",
+                "operationId": "e01f80e1ad1b8b3f65a959aaf8b1f4d1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "1"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "job_type",
+                                    "requirement",
+                                    "description",
+                                    "post_date"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Senior Software Engineer"
+                                    },
+                                    "job_type": {
+                                        "type": "string",
+                                        "example": "Full-time"
+                                    },
+                                    "requirement": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "example": [
+                                            "Master's degree in Computer Science",
+                                            "5+ years of experience"
+                                        ]
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Responsible for leading development teams."
+                                    },
+                                    "post_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-10-10"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Job position updated successfully"
+                    },
+                    "404": {
+                        "description": "Job position not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Position"
+                ],
+                "summary": "Delete a job position",
+                "operationId": "be998660e7df336ea7e1b510aefe2694",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "1"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Job position deleted successfully"
+                    },
+                    "404": {
+                        "description": "Job position not found"
+                    }
+                }
+            }
+        },
+        "/api/positions/change-status/{id}": {
+            "post": {
+                "tags": [
+                    "Position"
+                ],
+                "summary": "Change the status of a job position",
+                "operationId": "1e0d32aa53e38c12b17c8afe144cfd33",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "1"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Job position status changed successfully"
+                    },
+                    "404": {
+                        "description": "Job position not found"
+                    }
+                }
+            }
+        },
+        "/api/slots": {
+            "get": {
+                "tags": [
+                    "Slots"
+                ],
+                "summary": "List all slots",
+                "operationId": "52b2e5f0f5a47bdeebd33aee49091640",
+                "parameters": [
+                    {
+                        "name": "start_time",
+                        "in": "query",
+                        "description": "Start time filter",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "time"
+                        }
+                    },
+                    {
+                        "name": "end_time",
+                        "in": "query",
+                        "description": "End time filter",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "time"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Pagination limit",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of slots",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "Recode": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/Slot"
+                                                    }
+                                                },
+                                                "Pagination_Limit": {
+                                                    "type": "integer"
+                                                },
+                                                "Current_Page": {
+                                                    "type": "integer"
+                                                },
+                                                "Total_Recode": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No slots found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Slots"
+                ],
+                "summary": "Create a new slot",
+                "operationId": "072807e7de7dcdb5aef91c18304bcb3a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SlotRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Slot created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to create slot"
+                    }
+                }
+            }
+        },
+        "/api/slots/{id}": {
+            "get": {
+                "tags": [
+                    "Slots"
+                ],
+                "summary": "Display a specific slot",
+                "operationId": "f40ae8b7c5cf60f2aa364314df03f567",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Slot ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of slot",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Slot"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Slot not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Slots"
+                ],
+                "summary": "Update a specific slot",
+                "operationId": "21bc050040565f08041471cfd17fd7ec",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Slot ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SlotRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Slot updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Slot not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Slots"
+                ],
+                "summary": "Delete a specific slot",
+                "operationId": "85d7be2ceaa0aba0893f3b2a7f59ff49",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Slot ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Slot deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Slot not found"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AppointmentRequest": {
+                "title": "Appointment Request",
+                "description": "Schema for creating or updating an appointment",
+                "required": [
+                    "position_id",
+                    "slot_id",
+                    "name",
+                    "email",
+                    "contact",
+                    "cover_letter",
+                    "resume",
+                    "date"
+                ],
+                "properties": {
+                    "position_id": {
+                        "description": "ID of the job position for the appointment",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "slot_id": {
+                        "description": "ID of the time slot for the appointment",
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "name": {
+                        "description": "Name of the applicant",
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "description": "Email address of the applicant",
+                        "type": "string",
+                        "format": "email",
+                        "example": "john.doe@example.com"
+                    },
+                    "contact": {
+                        "description": "Contact number of the applicant",
+                        "type": "string",
+                        "example": "+1234567890"
+                    },
+                    "cover_letter": {
+                        "description": "Cover letter provided by the applicant",
+                        "type": "string",
+                        "example": "I am excited to apply for this position..."
+                    },
+                    "resume": {
+                        "description": "Resume file of the applicant",
+                        "type": "string",
+                        "format": "binary"
+                    },
+                    "date": {
+                        "description": "Date of the appointment",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-11-20"
+                    },
+                    "status": {
+                        "description": "Status of the appointment",
+                        "type": "string",
+                        "enum": [
+                            "scheduled",
+                            "done",
+                            "canceled"
+                        ],
+                        "example": "scheduled"
+                    }
+                },
+                "type": "object"
+            },
+            "AppointmentForm": {
+                "properties": {
+                    "position_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "slot_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "john@example.com"
+                    },
+                    "contact": {
+                        "type": "string",
+                        "example": "123-456-7890"
+                    },
+                    "cover_letter": {
+                        "type": "string",
+                        "example": "I am applying for..."
+                    },
+                    "resume": {
+                        "type": "string",
+                        "format": "binary"
+                    },
+                    "date": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-10-15"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "scheduled",
+                            "done",
+                            "canceled"
+                        ],
+                        "example": "scheduled"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-10-10T12:00:00Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-10-10T12:00:00Z"
+                    },
+                    "deleted_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-10-10T12:00:00Z"
+                    }
+                },
+                "type": "object"
+            },
+            "UserRegisterRequest": {
+                "title": "User Registration Request",
+                "description": "Request body for registering a new user",
+                "required": [
+                    "name",
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Name of the user",
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "description": "Email of the user",
+                        "type": "string",
+                        "format": "email",
+                        "example": "johndoe@example.com"
+                    },
+                    "password": {
+                        "description": "Password for the user account",
+                        "type": "string",
+                        "format": "password",
+                        "example": "password123"
+                    }
+                },
+                "type": "object"
+            },
+            "UserLoginRequest": {
+                "title": "User Login Request",
+                "description": "Request body for logging in a user",
+                "required": [
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "email": {
+                        "description": "Email of the user",
+                        "type": "string",
+                        "format": "email",
+                        "example": "johndoe@example.com"
+                    },
+                    "password": {
+                        "description": "Password for the user account",
+                        "type": "string",
+                        "format": "password",
+                        "example": "password123"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "title": "User",
+                "description": "User model",
+                "required": [
+                    "name",
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID of the user",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "Name of the user",
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "description": "Email of the user",
+                        "type": "string",
+                        "format": "email",
+                        "example": "johndoe@example.com"
+                    },
+                    "email_verified_at": {
+                        "description": "Timestamp when the user's email was verified",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "password": {
+                        "description": "Password of the user",
+                        "type": "string",
+                        "example": "password123"
+                    },
+                    "remember_token": {
+                        "description": "Token used for remembering the user",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "description": "Timestamp when the user was created",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Timestamp when the user was last updated",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "SlotRequest": {
+                "required": [
+                    "start_time",
+                    "end_time"
+                ],
+                "properties": {
+                    "start_time": {
+                        "type": "string",
+                        "format": "time",
+                        "example": "09:00:00"
+                    },
+                    "end_time": {
+                        "type": "string",
+                        "format": "time",
+                        "example": "17:00:00"
+                    }
+                },
+                "type": "object"
+            },
+            "Slot": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "start_time": {
+                        "type": "string",
+                        "format": "time"
+                    },
+                    "end_time": {
+                        "type": "string",
+                        "format": "time"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "PositionRequest": {
+                "title": "Position Request",
+                "description": "Schema for creating or updating a job position",
+                "required": [
+                    "title",
+                    "job_type",
+                    "requirement",
+                    "description",
+                    "post_date"
+                ],
+                "properties": {
+                    "title": {
+                        "description": "Title of the job position",
+                        "type": "string",
+                        "example": "Software Engineer"
+                    },
+                    "job_type": {
+                        "description": "Type of job",
+                        "type": "string",
+                        "enum": [
+                            "Full-time",
+                            "Part-time",
+                            "Contract"
+                        ],
+                        "example": "Full-time"
+                    },
+                    "requirement": {
+                        "description": "List of job requirements",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "example": [
+                            "Bachelor's degree in Computer Science",
+                            "3+ years of experience"
+                        ]
+                    },
+                    "description": {
+                        "description": "Description of the job position",
+                        "type": "string",
+                        "example": "Responsibilities include software development, code reviews, and team collaboration."
+                    },
+                    "post_date": {
+                        "description": "Date when the job position is posted",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-11-20"
+                    },
+                    "status": {
+                        "description": "Status of the job position (open or closed)",
+                        "type": "string",
+                        "enum": [
+                            "open",
+                            "close"
+                        ],
+                        "example": "open"
+                    }
+                },
+                "type": "object"
+            },
+            "Position": {
+                "title": "Position",
+                "description": "Position model",
+                "required": [
+                    "title",
+                    "job_type",
+                    "requirement",
+                    "description",
+                    "post_date"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID of the position",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "title": {
+                        "description": "Job title",
+                        "type": "string",
+                        "example": "Software Engineer"
+                    },
+                    "job_type": {
+                        "description": "Type of job",
+                        "type": "string",
+                        "example": "Full-time"
+                    },
+                    "requirement": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "example": [
+                            "Bachelor's degree in Computer Science",
+                            "3+ years of experience"
+                        ]
+                    },
+                    "description": {
+                        "description": "Description of the job position",
+                        "type": "string",
+                        "example": "Job description details here"
+                    },
+                    "post_date": {
+                        "description": "Date when the position was posted",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-01-15"
+                    },
+                    "status": {
+                        "description": "Status of the job position (e.g., open, closed)",
+                        "type": "string",
+                        "example": "open"
+                    },
+                    "created_at": {
+                        "description": "Timestamp when the position was created",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Timestamp when the position was last updated",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "API Endpoints for user authentication"
+        },
+        {
+            "name": "Manage Appointment",
+            "description": "API Endpoints for admin to managing appointments"
+        },
+        {
+            "name": "Appointment Form",
+            "description": "Appointment Form"
+        },
+        {
+            "name": "Appointment",
+            "description": "Appointment"
+        },
+        {
+            "name": "Position",
+            "description": "Position"
+        },
+        {
+            "name": "Slots",
+            "description": "Slots"
+        }
+    ]
+}

@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use App\Models\Slot;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class SlotTest extends TestCase
 {
@@ -81,10 +81,10 @@ class SlotTest extends TestCase
         $response = $this->deleteJson('/api/slots/' . $slot->id); // Safely access $slot->id
 
         $response->assertStatus(200)
-                 ->assertJson([
-                     'message' => 'Slot Deleted Successfully',
-                     'success' => true,
-                 ]);
+            ->assertJson([
+                'message' => 'Slot Deleted Successfully',
+                'success' => true,
+            ]);
 
         $this->assertDatabaseMissing('slots', ['id' => $slot->id]); // Safely access $slot->id
     }

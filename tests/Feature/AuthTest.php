@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
@@ -17,16 +16,16 @@ class AuthTest extends TestCase
         $response = $this->postJson('/auth/signup', [
             'name' => 'Test User',
             'email' => 'test@example.com',
-            'password' => 'password'
+            'password' => 'password',
         ]);
 
         $response->assertStatus(200)
-                 ->assertJsonStructure([
-                     'access_token', 'token_type', 'expires_in'
-                 ]);
+            ->assertJsonStructure([
+                'access_token', 'token_type', 'expires_in',
+            ]);
 
         $this->assertDatabaseHas('users', [
-            'email' => 'test@example.com'
+            'email' => 'test@example.com',
         ]);
     }
 
@@ -44,9 +43,9 @@ class AuthTest extends TestCase
         ]);
 
         $response->assertStatus(200)
-                 ->assertJsonStructure([
-                     'access_token', 'token_type', 'expires_in'
-                 ]);
+            ->assertJsonStructure([
+                'access_token', 'token_type', 'expires_in',
+            ]);
     }
 
     /** @test */

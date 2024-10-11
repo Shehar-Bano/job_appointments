@@ -7,10 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+/**
+ * @property int $user
+         */
 
 
 /**
- * 
+ *
  *
  * @property string $email
  * @property int $id
@@ -73,6 +76,7 @@ class User extends Authenticatable implements JWTSubject
             'password' => 'hashed',
         ];
     }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();

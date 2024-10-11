@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('positions', function (Blueprint $table) {
             $table->id();
             $table->text('title');
-            $table->enum('job_type', ["full_time","part_time"]);
+            $table->enum('job_type', ['full_time', 'part_time']);
             $table->json('requirement');
-            $table->enum('status', ["open","close"])->default('open');
+            $table->enum('status', ['open', 'close'])->default('open');
             $table->text('description');
             $table->date('post_date');
             $table->timestamps();

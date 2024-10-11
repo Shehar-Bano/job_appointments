@@ -1,52 +1,59 @@
-use Tests\TestCase;
-use App\Models\User;
+<?php
+
+namespace Tests\Feature;
 use App\Models\Position;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class PositionTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function it_can_create_a_position(): void
-    {
-        // Creating a single user instance
-        $user = User::factory()->create();
-        $this->actingAs($user, 'api');
+   public function it_can_create_a_position()
+   {
+       // Create a new user and authenticate
+       $user = User::factory()->create(); // Create a user
+       $this->actingAs($user, 'api'); // Act as the authenticated user
 
-        $data = [
-            'title' => 'Software Engineer',
-            'job_type' => 'full_time',
-            'requirement' => [
-                "education" => "Bachelor's Degree",
-                "experience" => "9 years",
-                "skills" => "dicta, sent, consequent"
-            ],
-            'status' => 'open',
-            'description' => 'Sit omnis nemo et enim quia sed. Adipisci et dolorem quas sunt.',
-            'post_date' => '2018-10-12',
-        ];
+       // Prepare valid data for creating a position
+       $data = [
+           'title' => 'Software Engineer',
+           'job_type' => 'full_time', // Use valid enum value
+           'requirement' => [ // Pass as an array
+               "education" => "Bachelor's Degree",
+               "experience" => "9 years",
+               "skills" => "dicta, sent, consequent" // Ensure this matches what's stored
+           ],
+           'status' => 'open',
+           'description' => 'Sit omnis nemo et enim quia sed. Adipisci et dolorem quas sunt.',
+           'post_date' => '2018-10-12',
+       ];
 
-        $response = $this->postJson('/api/positions', $data);
+       // Create the position
+       $response = $this->postJson('/api/positions', $data);
 
-        $response->assertJson([
-            'success' => true,
-            'data' => 'data stored successfully',
-        ]);
+       // Assert the response
+       $response->assertJson([
+           'success' => true,
+           'data' => 'data stored successfully',
+       ]);
 
-        $this->assertDatabaseHas('positions', [
-            'title' => 'Software Engineer',
-            'job_type' => 'full_time',
-            'requirement' => json_encode([
-                "education" => "Bachelor's Degree",
-                "experience" => "9 years",
-                "skills" => "dicta, sent, consequent"
-            ]),
-            'status' => 'open',
-            'description' => 'Sit omnis nemo et enim quia sed. Adipisci et dolorem quas sunt.',
-            'post_date' => '2018-10-12',
-        ]);
-    }
+       // Assert the position is created in the database
+       $this->assertDatabaseHas('positions', [
+           'title' => 'Software Engineer',
+           'job_type' => 'full_time',
+           'requirement' => json_encode([ // Ensure this matches what is stored in the database
+               "education" => "Bachelor's Degree",
+               "experience" => "9 years",
+               "skills" => "dicta, sent, consequent"
+           ]),
+           'status' => 'open',
+           'description' => 'Sit omnis nemo et enim quia sed. Adipisci et dolorem quas sunt.',
+           'post_date' => '2018-10-12',
+       ]);
+   }
+
 
     /** @test */
     public function it_can_fetch_all_positions(): void
@@ -59,16 +66,16 @@ class PositionTest extends TestCase
         $response = $this->getJson('/api/positions');
 
         $response->assertStatus(200)
-                 ->assertJsonStructure([
-                     '*' => [
-                         'id',
-                         'title',
-                         'job_type',
-                         'requirement',
-                         'description',
-                         'post_date',
-                     ]
-                 ]);
+            ->assertJsonStructure([
+                '*' => [
+                    'id',
+                    'title',
+                    'job_type',
+                    'requirement',
+                    'description',
+                    'post_date',
+                ],
+            ]);
     }
 
     /** @test */
@@ -82,47 +89,53 @@ class PositionTest extends TestCase
             'job_type' => 'full_time',
         ]);
 
-        // Ensure you access the single model's id
+        // Send request to fetch the position
         $response = $this->getJson('/api/positions/' . $position->id);
 
         $response->assertStatus(200)
-                 ->assertJson([
-                     'id' => $position->id,
-                     'title' => 'Software Engineer',
-                     'job_type' => 'full_time',
-                 ]);
+            ->assertJson([
+                'id' => $position->id,
+                'title' => 'Software Engineer',
+                'job_type' => 'full_time',
+            ]);
     }
 
     /** @test */
-    public function it_can_update_a_position(): void
-    {
-        $user = User::factory()->create();
-        $this->actingAs($user, 'api');
+  /** @test */
+public function it_can_update_a_position()
+{
+    // Create a user and authenticate
+    $user = User::factory()->create(); // Create a user
+    $this->actingAs($user, 'api'); // Act as the authenticated user
 
-        $position = Position::factory()->create();
+    $position = Position::factory()->create(); // Create a position for testing
 
-        $updatedData = [
-            'title' => 'Senior Software Engineer',
-            'job_type' => 'full_time',
-            'requirement' => json_encode(["Master's degree", "5+ years experience"]),
-            'description' => 'Responsible for leading the development team.',
-            'post_date' => now()->toDateString(),
-        ];
+    // Prepare valid update data
+    $updatedData = [
+        'title' => 'Senior Software Engineer',
+        'job_type' => 'full_time',
+        'requirement' => ["Master's degree", "5+ years experience"],
+        'description' => 'Responsible for leading the development team.',
+        'post_date' => now()->toDateString(), // Ensure this is a valid date
+    ];
 
-        $response = $this->putJson('/api/positions/' . $position->id, $updatedData);
+    // Send request to update the position
+    $response = $this->putJson('/api/positions/' . $position->id, $updatedData);
 
-        $response->assertStatus(200)
-                 ->assertJson(['message' => 'Job updated successfully']);
+    // Assert the response
+    $response->assertStatus(200)
+             ->assertJson(['message' => 'Job updated successfully']);
 
-        $this->assertDatabaseHas('positions', [
-            'id' => $position->id,
-            'title' => 'Senior Software Engineer',
-            'job_type' => 'full_time',
-            'requirement' => json_encode(["Master's degree", "5+ years experience"]),
-            'description' => 'Responsible for leading the development team.',
-            'post_date' => now()->toDateString(),
-        ]);
-    }
+    // Assert the position is updated in the database
+    $this->assertDatabaseHas('positions', [
+        'id' => $position->id,
+        'title' => 'Senior Software Engineer',
+        'job_type' => 'full_time', // Check for the valid enum value
+        'requirement' => json_encode(["Master's degree", "5+ years experience"]),
+        'description' => 'Responsible for leading the development team.',
+        'post_date' => now()->toDateString(),
+    ]);
+}
 
     /** @test */
     public function it_can_delete_a_position(): void
@@ -132,10 +145,11 @@ class PositionTest extends TestCase
 
         $position = Position::factory()->create();
 
+        // Send request to delete the position
         $response = $this->deleteJson('/api/positions/' . $position->id);
 
         $response->assertStatus(200)
-                 ->assertJson(['message' => 'Job deleted successfully']);
+            ->assertJson(['message' => 'Job deleted successfully']);
 
         $this->assertDatabaseMissing('positions', [
             'id' => $position->id,
@@ -150,7 +164,7 @@ class PositionTest extends TestCase
 
         $position = Position::factory()->create(['status' => 'open']);
 
-        // Ensure you're calling refresh on the single model instance
+        // Send request to change the status
         $response = $this->postJson('/api/positions/change-status/' . $position->id);
 
         $response->assertStatus(200);
@@ -158,6 +172,7 @@ class PositionTest extends TestCase
         $position->refresh();
         $this->assertEquals('close', $position->status);
 
+        // Change it back to 'open'
         $response = $this->postJson('/api/positions/change-status/' . $position->id);
         $position->refresh();
         $this->assertEquals('open', $position->status);
