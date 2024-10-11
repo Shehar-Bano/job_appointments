@@ -29,7 +29,7 @@ class IpMiddleware
         // Check if the client's IP address is in the allowed list
         if (!in_array($request->ip(), $this->allowedIps)) {
             // Optionally, you can return a custom response here
-            return response()->json(['message' => 'Unauthorized IP address'], 403);
+            //return response()->json(['message' => 'Unauthorized IP address'], 403);
         }
 
         return $next($request);
