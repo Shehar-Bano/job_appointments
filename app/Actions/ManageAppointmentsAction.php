@@ -9,46 +9,44 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class ManageAppointmentsAction
 {
-    public function getAppointments(int $position_id, int $limit, ?string $start_date, ?string $end_date, ?string $email, ?string $name): LengthAwarePaginator|false
+    public function getAppointments($position_id, $limit, $start_date, $end_date, $email, $name)
     {
-        $appointments = AppointmentForm::query()
-            ->whereEmail($email)
-            ->whereName($name)
-            ->whereDate('date_column', '>=', $start_date) // Adjust to your actual date field
-            ->whereDate('date_column', '<=', $end_date)
-            ->wherePosition($position_id)
-            ->with(['position', 'slot'])
-            ->paginate($limit);
 
-        return $appointments->isEmpty() ? false : $appointments;
-    }
-
-    public function showAppointment(int $appointment_id): AppointmentForm|false
-    {
-        $appointment = AppointmentForm::with(['position', 'slot'])->find($appointment_id);
-        return $appointment ?: false;
-    }
-
-    public function destroy(int $appointment_id): AppointmentForm|false
-    {
-        $appointment = AppointmentForm::find($appointment_id);
-        if (! $appointment) {
+        $appointments = AppointmentForm::whereEmail($email)->whereName($name)->
+            whereDateBetween($start_date, $end_date)->wherePosition($position_id)->
+            with(['position', 'slot'])->paginate($limit);
+        if (!$appointments) {
             return false;
         }
-        $appointment->delete();
+        return $appointments;
 
+    }
+    public function showAppointment($appointment_id)
+    {
+        $appointment = AppointmentForm::with(['position', 'slot'])->find($appointment_id);
+        if (!$appointment) {
+            return false;
+        }
         return $appointment;
     }
 
-    public function interviewDone(int $id): AppointmentForm|false
+    public function destroy($appointment_id)
+    {
+        $appointment = AppointmentForm::find($appointment_id);
+        if (!$appointment) {
+            return false;
+        }
+        $appointment->delete();
+        return $appointment;
+    }
+    public function interviewDone($id)
     {
         $appointment = AppointmentForm::find($id);
-        if (! $appointment) {
+        if (!$appointment) {
             return false;
         }
         $appointment->status = 'done';
         $appointment->save();
-
         return $appointment;
     }
 
@@ -58,12 +56,12 @@ class ManageAppointmentsAction
         if (!$appointment) {
             return false;
         }
-
+        
         $appointment->status = 'canceled';
         $appointment->save();
-
+        
         Mail::to($appointment->email)->send(new AppointmentCancelled($appointment));
-
+    
         return $appointment;
     }
 }

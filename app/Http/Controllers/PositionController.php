@@ -29,6 +29,7 @@ class PositionController extends Controller
     /**
      * @OA\Get(
      *     path="/api/positions",
+     *  security={{"bearerAuth": {}}},
      *     tags={"Position"},
      *     summary="Get a list of job positions",
      *     @OA\Response(response=200, description="List of job positions retrieved successfully"),
@@ -42,6 +43,7 @@ class PositionController extends Controller
      /**
      * @OA\Post(
      *     path="/api/positions",
+     * security={{"bearerAuth": {}}},
      *     tags={"Position"},
      *     summary="Store a new job position",
      *     @OA\RequestBody(
@@ -76,6 +78,7 @@ class PositionController extends Controller
      /**
      * @OA\Get(
      *     path="/api/positions/{id}",
+     * security={{"bearerAuth": {}}},
      *     tags={"Position"},
      *     summary="Get job position details",
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="string", example="1")),
@@ -90,6 +93,7 @@ class PositionController extends Controller
       /**
      * @OA\Put(
      *     path="/api/positions/{id}",
+     * security={{"bearerAuth": {}}},
      *     tags={"Position"},
      *     summary="Update a job position",
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="string", example="1")),
@@ -127,6 +131,7 @@ class PositionController extends Controller
      /**
      * @OA\Delete(
      *     path="/api/positions/{id}",
+     * security={{"bearerAuth": {}}},
      *     tags={"Position"},
      *     summary="Delete a job position",
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="string", example="1")),
@@ -146,6 +151,7 @@ class PositionController extends Controller
  /**
      * @OA\Post(
      *     path="/api/positions/change-status/{id}",
+     * security={{"bearerAuth": {}}},
      *     tags={"Position"},
      *     summary="Change the status of a job position",
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="string", example="1")),

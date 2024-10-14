@@ -6,8 +6,14 @@ use App\Services\SlotService;
 use Illuminate\Http\Request;
 
 /**
- * @OA\Info(title="Interview Appointment API", version="1.0.0")
- *
+  * @OA\Info(title="Interview Appointment API", version="1.0.0")
+ * @OA\SecurityScheme(
+ *     securityScheme="bearerAuth",
+ *     type="http",
+ *     scheme="bearer",
+ *     bearerFormat="JWT",
+ *     description="Enter your JWT token to access protected routes."
+ * )
  * @OA\Schema(
  *     schema="SlotRequest",
  *     type="object",
@@ -75,6 +81,7 @@ class SlotController extends Controller
      * @OA\Get(
      *     path="/api/slots",
      *     tags={"Slots"},
+     *  security={{"bearerAuth": {}}},
      *     summary="List all slots",
      *     @OA\Parameter(
      *         name="start_time",
@@ -142,6 +149,7 @@ class SlotController extends Controller
     /**
      * @OA\Post(
      *     path="/api/slots",
+     *     security={{"bearerAuth": {}}},
      *     tags={"Slots"},
      *     summary="Create a new slot",
      *     @OA\RequestBody(
@@ -186,6 +194,7 @@ class SlotController extends Controller
     /**
      * @OA\Get(
      *     path="/api/slots/{id}",
+     *  security={{"bearerAuth": {}}},
      *     tags={"Slots"},
      *     summary="Display a specific slot",
      *     @OA\Parameter(
@@ -224,6 +233,7 @@ class SlotController extends Controller
     /**
      * @OA\Put(
      *     path="/api/slots/{id}",
+     *  security={{"bearerAuth": {}}},
      *     tags={"Slots"},
      *     summary="Update a specific slot",
      *     @OA\Parameter(
@@ -282,6 +292,7 @@ class SlotController extends Controller
     /**
      * @OA\Delete(
      *     path="/api/slots/{id}",
+     *   security={{"bearerAuth": {}}},
      *     tags={"Slots"},
      *     summary="Delete a specific slot",
      *     @OA\Parameter(

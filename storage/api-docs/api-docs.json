@@ -334,7 +334,12 @@
                     "500": {
                         "description": "Internal Server Error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/manage-appointment/show/{id}": {
@@ -365,7 +370,12 @@
                     "500": {
                         "description": "Internal Server Error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/manage-appointment/delete/{id}": {
@@ -396,7 +406,12 @@
                     "500": {
                         "description": "Internal Server Error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/manage-appointment/interview-done/{id}": {
@@ -427,7 +442,12 @@
                     "500": {
                         "description": "Internal Server Error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/manage-appointment/interview-cancel/{id}": {
@@ -458,7 +478,12 @@
                     "500": {
                         "description": "Internal Server Error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/positions": {
@@ -472,7 +497,12 @@
                     "200": {
                         "description": "List of job positions retrieved successfully"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -533,7 +563,12 @@
                     "400": {
                         "description": "Bad Request"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/positions/{id}": {
@@ -561,7 +596,12 @@
                     "404": {
                         "description": "Job position not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
@@ -633,7 +673,12 @@
                     "404": {
                         "description": "Job position not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -659,7 +704,12 @@
                     "404": {
                         "description": "Job position not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/positions/change-status/{id}": {
@@ -687,7 +737,12 @@
                     "404": {
                         "description": "Job position not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/slots": {
@@ -764,7 +819,12 @@
                     "404": {
                         "description": "No slots found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -804,7 +864,12 @@
                     "400": {
                         "description": "Failed to create slot"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/slots/{id}": {
@@ -839,7 +904,12 @@
                     "404": {
                         "description": "Slot not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
@@ -890,7 +960,12 @@
                     "404": {
                         "description": "Slot not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -931,7 +1006,12 @@
                     "404": {
                         "description": "Slot not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         }
     },
@@ -1342,6 +1422,14 @@
                     }
                 },
                 "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "description": "Enter your JWT token to access protected routes.",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
             }
         }
     },

@@ -27,6 +27,7 @@ class ManageAppointmentController extends Controller
       /**
      * @OA\Get(
      *     path="/api/manage-appointment/list",
+     * security={{"bearerAuth": {}}},
      *     tags={"Manage Appointment"},
      *     summary="Get a list of appointments",
      *     @OA\Parameter(name="limit", in="query", required=false, @OA\Schema(type="integer", example=10)),
@@ -86,6 +87,7 @@ class ManageAppointmentController extends Controller
      /**
      * @OA\Get(
      *     path="/api/manage-appointment/show/{id}",
+     * security={{"bearerAuth": {}}},
      *     tags={"Manage Appointment"},
      *     summary="Show appointment details",
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer", example=1)),
@@ -113,6 +115,7 @@ class ManageAppointmentController extends Controller
 /**
      * @OA\Delete(
      *     path="/api/manage-appointment/delete/{id}",
+     * security={{"bearerAuth": {}}},
      *     tags={"Manage Appointment"},
      *     summary="Delete an appointment",
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer", example=1)),
@@ -139,6 +142,7 @@ class ManageAppointmentController extends Controller
  /**
      * @OA\Get(
      *     path="/api/manage-appointment/interview-done/{id}",
+     * security={{"bearerAuth": {}}},
      *     tags={"Manage Appointment"},
      *     summary="Mark an interview as done",
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer", example=1)),
@@ -163,6 +167,7 @@ class ManageAppointmentController extends Controller
         /**
      * @OA\Get(
      *     path="/api/manage-appointment/interview-cancel/{id}",
+     * security={{"bearerAuth": {}}},
      *     tags={"Manage Appointment"},
      *     summary="Cancel an interview",
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer", example=1)),

@@ -37,8 +37,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|AppointmentForm whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|AppointmentForm whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|AppointmentForm whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|AppointmentForm wherePosition($position_id = null)
- * @method static \Illuminate\Database\Eloquent\Builder|AppointmentForm wherePositionId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|AppointmentForm whereResume($value)
  * @method static \Illuminate\Database\Eloquent\Builder|AppointmentForm whereSlotId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|AppointmentForm whereStatus($value)
@@ -50,7 +48,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class AppointmentForm extends Model
 {
     use HasFactory, SoftDeletes;
+
     protected $fillable = ['position_id', 'slot_id', 'name', 'email', 'contact', 'cover_letter', 'resume', 'date'];
+
     public function position()
     {
         return $this->belongsTo(Position::class);
@@ -70,39 +70,29 @@ class AppointmentForm extends Model
         return $query;
     }
 
-    public function scopeWherePosition($query, int $position_id)
+    public function scopeWherePosition($query, ?int $position_id) // Changed to ?int
     {
-        return $query->where('position_id', $position_id);
+        if ($position_id !== null) { // Check for null instead of type
+            return $query->where('position_id', $position_id);
+        }
+        return $query; // Return query if position_id is null
     }
-public function scopeWhereEmail($query, $email){
-    if($email){
-        $query->where('email','like','%'.$email.'%');
+
+    public function scopeWhereEmail($query, $email)
+    {
+        if ($email) {
+            $query->where('email', 'like', '%' . $email . '%');
+        }
+        return $query;
     }
-    return $query;
-}
-   public function scopeWhereDate($query, $start_date = null, $end_date = null)
-{
-    if (!empty($start_date) && !empty($end_date)) {
-        // Use whereBetween for date filtering
-        return $query->whereBetween('date', [$start_date, $end_date]);
+
+    public function scopeWhereDateBetween($query, $start_date = null, $end_date = null)
+    {
+        if (!empty($start_date) && !empty($end_date)) {
+            // Use whereBetween for date filtering
+            return $query->whereBetween('date', [$start_date, $end_date]);
+        }
+
+        return $query;
     }
-}
-    // public function scopeWhereEmail($query, $email)
-    // {
-    //     if ($email) {
-    //         $query->where('email', 'like', '%'.$email.'%');
-    //     }
-
-    //     return $query;
-
-
-
-    //     // Optionally, if you want to handle cases where only one date is provided
-    //     if (! empty($start_date) || ! empty($end_date)) {
-    //         return $query->where('date', '>=', $start_date)->orWhere('date', '<=', $end_date);
-    //     }
-
-    //     return $query;
-    // }
-
 }
