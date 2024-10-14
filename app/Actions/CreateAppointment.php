@@ -7,10 +7,17 @@ use App\Mail\UserAppointmentConfirmation;
 use App\Models\AppointmentForm;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\Request;
 
 class CreateAppointment
 {
-    public function checkAppointment($request)
+    /**
+     * Check if an appointment already exists for the given slot and date.
+     *
+     * @param Request $request
+     * @return bool
+     */
+    public function checkAppointment(Request $request): bool
     {
         $date = $request->input('date');
         $slotId = $request->input('slot_id');
@@ -21,6 +28,7 @@ class CreateAppointment
 
         return $existingAppointment ? true : false;
     }
+
 
     public function execute($request)
     {
@@ -35,17 +43,19 @@ class CreateAppointment
             'date' => 'required|date',
         ]);
 
+        // Handle resume upload
         if (isset($validated['resume']) && $validated['resume'] instanceof UploadedFile) {
             $filePath = $validated['resume']->store('resumes', 'public');
             $validated['resume'] = $filePath;
         }
 
+        // Create the appointment
         $appointment = AppointmentForm::create($validated);
 
         // Send email to user
         Mail::to($validated['email'])->queue(new UserAppointmentConfirmation($appointment));
 
-        // Send email to admin through queue
+        // Send email to admin
         Mail::to('rhondajarvis274@gmail.com')->queue(new AdminAppointmentNotification($appointment));
 
         return response()->json([
