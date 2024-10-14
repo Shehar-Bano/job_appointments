@@ -40,11 +40,7 @@ class ManageAppointmentsAction
         return $appointment;
     }
 
-<<<<<<< HEAD
     public function interviewDone(int $id): AppointmentForm|false
-=======
-    public function interviewDone($id)
->>>>>>> 50a1595f49378627141955d26ed39dbdb0ce8243
     {
         $appointment = AppointmentForm::find($id);
         if (! $appointment) {
@@ -56,7 +52,6 @@ class ManageAppointmentsAction
         return $appointment;
     }
 
-<<<<<<< HEAD
     public function cancel(int $id): AppointmentForm|false
     {
         $appointment = AppointmentForm::find($id);
@@ -64,16 +59,6 @@ class ManageAppointmentsAction
             return false;
         }
 
-=======
-    public function cancel($id)
-    {
-        $appointment = AppointmentForm::find($id);
-
-        if (! $appointment) {
-            return false;
-        }
-
->>>>>>> 50a1595f49378627141955d26ed39dbdb0ce8243
         $appointment->status = 'canceled';
         $appointment->save();
 
