@@ -26,17 +26,17 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::post('me', [AuthController::class, 'me']);
 
-                    
+
     Route::apiResource('slots', SlotController::class);
 
-    Route::apiResource('positions', PositionController::class);
+
     Route::post('positions/change-status/{id}', [PositionController::class, 'changeStatus']);
 
 
 
     Route::prefix('manage-appointment')->controller(ManageAppointmentController::class)
     ->group(function () {
-        Route::get('list', 'index');
+        Route::get('list', 'index')->withoutMiddleware('auth:api');
         Route::get('show/{id}', 'show');
         Route::delete('delete/{id}', 'destroy');
         Route::get('interview-cancel/{id}', 'interviewCancel');
@@ -52,5 +52,6 @@ Route::prefix('appointment')->controller(AppointmentFormController::class)->grou
     Route::post('check-existence', 'existingAppointment');
 
 });
+Route::apiResource('positions', PositionController::class);
 
  });
