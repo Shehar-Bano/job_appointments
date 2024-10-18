@@ -48,6 +48,8 @@ Route::middleware(['auth:api'])->group(function () {
 });
 
 Route::prefix('appointment')->controller(AppointmentFormController::class)->group(function () {
+    Route::get('list-slots', 'listSlots');
+    Route::get('position-detail/{id}', 'PositionDetail');
     Route::post('create', 'store');
     Route::post('check-existence', 'existingAppointment');
 

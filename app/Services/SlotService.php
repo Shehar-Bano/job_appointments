@@ -3,14 +3,18 @@
 namespace App\Services;
 
 use App\Models\Slot;
+use Illuminate\Support\Facades\Cache;
 
 class SlotService
 {
-    public function fetchData($limit, $start_time, $end_time)
+    public function fetchData($limit, $start_time, $end_time,  $page)
     {
+      
+        
 
-        $slots = Slot::whereTime($start_time, $end_time)
-            ->paginate($limit);
+        $slots =  Slot::whereTime($start_time, $end_time)
+            ->paginate($limit,['*'],'page',$page);
+        
         if (! $slots) {
             return false;
 
@@ -27,7 +31,10 @@ class SlotService
 
     public function show($id)
     {
-        $slot = Slot::find($id);
+        $cacheKey="slot_{$id}";
+        $slot =Cache::remember($cacheKey,60,function() use($id){
+          return  Slot::find($id);
+        });
         if (! $slot) {
             return false;
         }
@@ -44,6 +51,7 @@ class SlotService
         }
 
         return $slot->update($validated);
+       
     }
 
     public function delete($id)
