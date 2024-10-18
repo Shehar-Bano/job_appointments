@@ -127,8 +127,11 @@ class SlotController extends Controller
         $start_time = $request->input('start_time');
         $end_time = $request->input('end_time');
         $limit = $this->getValue($request->input('limit'));
+        $page = $request->get('page', 1);
 
-        $slots = $this->slot->fetchData($limit, $start_time, $end_time);
+        
+
+        $slots = $this->slot->fetchData($limit, $start_time, $end_time, $page);
 
         if (! $slots) {
             return response()->json(['message' => 'No slots found'], 404);
@@ -224,7 +227,7 @@ class SlotController extends Controller
             }
             $data = new SlotResource($slot);
 
-            return response()->json(['data' => $data, 'success' => true], 200);
+            return response()->json(['data' => $data, 'success' => true], 200)->header('Cache-Control', 'public, max-age=50');
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }

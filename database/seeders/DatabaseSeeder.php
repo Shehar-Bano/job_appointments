@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\AppointmentForm;
+use App\Models\Position;
+use App\Models\Slot;
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -19,5 +21,15 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        if(Slot::count() != 0){
+            Slot::factory()->count(20)->create();
+        }
+        if(Position::count() != 0){
+            Position::factory()->count(20)->create();
+        }
+       if(AppointmentForm::count() !== 0){
+            AppointmentForm::factory()->count(20)->create();
+        }
     }
 }

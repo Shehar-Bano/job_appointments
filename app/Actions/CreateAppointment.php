@@ -5,9 +5,12 @@ namespace App\Actions;
 use App\Mail\AdminAppointmentNotification;
 use App\Mail\UserAppointmentConfirmation;
 use App\Models\AppointmentForm;
+use App\Models\Position;
+use App\Models\Slot;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class CreateAppointment
 {
@@ -63,5 +66,30 @@ class CreateAppointment
             'appointment' => $appointment,
             'success' => true,
         ], 201);
+    }
+    public function listSlots(){
+        $cacheKey="slots";
+        $slots = Cache::remember($cacheKey, 60, function () {
+            return Slot::get();
+            });
+       
+        if($slots){
+            return  $slots;
+        }
+        return false;
+
+    }
+    public function getPositionDetail($id){
+        $cacheKey="position_{$id}";
+        $position = Cache::remember($cacheKey, 60, function () use ($id)
+        {
+            return Position::findOrFail($id);
+            });
+            if($position){
+                return $position;
+                }
+                return false;
+            
+
     }
 }

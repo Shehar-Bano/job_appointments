@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\CreateAppointment;
+use App\Http\Resources\SlotResource;
 use Illuminate\Http\Request;
 
 /**
@@ -103,5 +104,32 @@ class AppointmentFormController extends Controller
         }
 
         return response()->json(['message' => 'Appointment does not exist'], 404);
+    }
+    public function listSlots(){
+       try{
+        $slots = $this->appointments->listSlots();
+        if($slots ){
+            return response()->json(['success'=>true,'data'=>SlotResource::collection($slots)],200);
+        }
+        return response()->json(['success'=>false,'message'=>'No slots available'],404);
+
+
+       }
+       catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+    public function PositionDetail($id){
+        try{
+            $position = $this->appointments->getPositionDetail($id);
+            if($position){
+                return response()->json(['success'=>true,'data'=>$position],200);
+                }
+                return response()->json(['success'=>false,'message'=>'Position not found'],404);
+                }
+                catch (\Exception $e) {
+                    return response()->json(['error' => $e->getMessage()], 500);
+                }
+
     }
 }
