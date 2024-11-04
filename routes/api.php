@@ -29,9 +29,6 @@ Route::middleware(['auth:api'])->group(function () {
                     
     Route::apiResource('slots', SlotController::class);
 
-    Route::apiResource('positions', PositionController::class);
-    Route::post('positions/change-status/{id}', [PositionController::class, 'changeStatus']);
-
 
 
     Route::prefix('manage-appointment')->controller(ManageAppointmentController::class)
@@ -46,6 +43,11 @@ Route::middleware(['auth:api'])->group(function () {
 
 
 });
+
+Route::apiResource('positions', PositionController::class);
+Route::post('positions/change-status/{id}', [PositionController::class, 'changeStatus']);
+
+
 
 Route::prefix('appointment')->controller(AppointmentFormController::class)->group(function () {
     Route::get('list-slots', 'listSlots');
