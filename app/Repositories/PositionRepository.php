@@ -35,7 +35,7 @@ class PositionRepository implements PositionRepositoryInterface
 
     public function delete($id)
     {
-        $position=Position::find($id);
-        return $this->job->find($position)->delete();
+       
+        return $this->job->$id->delete();
     }
 }
