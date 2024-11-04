@@ -32,6 +32,19 @@ Route::middleware(['auth:api'])->group(function () {
         Route::get('interview-done/{id}', 'interviewDone');
     });
 });
+Route::apiResource('slots', SlotController::class);
+
+
+
+Route::prefix('manage-appointment')->controller(ManageAppointmentController::class)
+->group(function () {
+    Route::get('list', 'index')->withoutMiddleware('auth:api');
+    Route::get('show/{id}', 'show');
+    Route::delete('delete/{id}', 'destroy');
+    Route::get('interview-cancel/{id}', 'interviewCancel');
+    Route::get('interview-done/{id}', 'interviewDone');
+
+});
 
 
 
