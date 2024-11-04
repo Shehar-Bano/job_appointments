@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('appointment_forms', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('position_id');
-            $table->foreign('position_id')->references('id')->on('positions');
+            $table->foreign('position_id')->references('id')->on('positions')->onDelete('cascade');
             $table->unsignedBigInteger('slot_id');
-            $table->foreign('slot_id')->references('id')->on('slots');
+            $table->foreign('slot_id')->references('id')->on('slots')->onDelete('cascade');
             $table->string('name');
             $table->string('email');
             $table->string('contact');
