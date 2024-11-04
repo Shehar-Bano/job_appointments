@@ -20,8 +20,9 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::post('me', [AuthController::class, 'me']);
     Route::apiResource('slots', SlotController::class);
-    Route::apiResource('positions', PositionController::class);
-    Route::post('positions/change-status/{id}', [PositionController::class, 'changeStatus']);
+
+
+
     Route::prefix('manage-appointment')->controller(ManageAppointmentController::class)
     ->group(function () {
         Route::get('list', 'index');
@@ -31,10 +32,19 @@ Route::middleware(['auth:api'])->group(function () {
         Route::get('interview-done/{id}', 'interviewDone');
     });
 });
+
+Route::apiResource('positions', PositionController::class);
+Route::post('positions/change-status/{id}', [PositionController::class, 'changeStatus']);
+
+
+
 Route::prefix('appointment')->controller(AppointmentFormController::class)->group(function () {
     Route::get('list-slots', 'listSlots');
     Route::get('position-detail/{id}', 'PositionDetail');
     Route::post('create', 'store');
     Route::post('check-existence', 'existingAppointment');
 });
+Route::apiResource('positions', PositionController::class);
+
+
  });
