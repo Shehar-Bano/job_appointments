@@ -33,9 +33,6 @@ Route::middleware(['auth:api'])->group(function () {
     });
 });
 Route::apiResource('slots', SlotController::class);
-
-
-
 Route::prefix('manage-appointment')->controller(ManageAppointmentController::class)
 ->group(function () {
     Route::get('list', 'index')->withoutMiddleware('auth:api');
