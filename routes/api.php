@@ -33,8 +33,7 @@ Route::middleware(['auth:api'])->group(function () {
     });
 });
 
-Route::apiResource('positions', PositionController::class);
-Route::post('positions/change-status/{id}', [PositionController::class, 'changeStatus']);
+
 
 
 
@@ -44,7 +43,8 @@ Route::prefix('appointment')->controller(AppointmentFormController::class)->grou
     Route::post('create', 'store');
     Route::post('check-existence', 'existingAppointment');
 });
+
+
 Route::apiResource('positions', PositionController::class);
-
-
+Route::post('positions/change-status/{id}', [PositionController::class, 'changeStatus']);
  });
