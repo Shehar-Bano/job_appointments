@@ -49,7 +49,7 @@ class ManageAppointmentsAction
         $appointment->save();
         return $appointment;
     }
-
+//commit to save
     public function cancel(int $id): AppointmentForm|false
     {
         $appointment = AppointmentForm::find($id);
