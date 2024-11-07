@@ -55,8 +55,13 @@ class CreateAppointment
 
         // Create the appointment
         $appointment = AppointmentForm::create($validated);
+        try {
             Mail::to($validated['email'])->queue(new UserAppointmentConfirmation($appointment));
             Mail::to('bshehar2002@gmail.com')->queue(new AdminAppointmentNotification($appointment));
+        } catch (\Exception $e) {
+            Log::error('Mail sending failed: ' . $e->getMessage());
+        }
+
         return $appointment;
 
     }
