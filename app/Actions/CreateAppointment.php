@@ -56,15 +56,12 @@ class CreateAppointment
         // Create the appointment
         $appointment = AppointmentForm::create($validated);
         try {
-            $userMail = Mail::to($validated['email'])->send(new UserAppointmentConfirmation($appointment));
-            $adminMail = Mail::to('bshehar2002@gmail.com')->send(new AdminAppointmentNotification($appointment));
+             Mail::to($validated['email'])->send(new UserAppointmentConfirmation($appointment));
+            Mail::to('bshehar2002@gmail.com')->send(new AdminAppointmentNotification($appointment));
 
 
 
-            // return [
-            //     'userMail' => $userMail,
-            //     'adminMail' => $adminMail,
-            // ];
+
         } catch (\Exception $e) {
             Log::error('Mail sending failed: ' . $e->getMessage());
         }
