@@ -2,15 +2,16 @@
 
 namespace App\Actions;
 
-use App\Mail\AdminAppointmentNotification;
-use App\Mail\UserAppointmentConfirmation;
-use App\Models\AppointmentForm;
-use App\Models\Position;
 use App\Models\Slot;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Mail;
+use App\Models\Position;
 use Illuminate\Http\Request;
+use App\Models\AppointmentForm;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Cache;
+use App\Mail\UserAppointmentConfirmation;
+use App\Mail\AdminAppointmentNotification;
 
 class CreateAppointment
 {
@@ -54,25 +55,19 @@ class CreateAppointment
 
         // Create the appointment
         $appointment = AppointmentForm::create($validated);
+            Mail::to($validated['email'])->queue(new UserAppointmentConfirmation($appointment));
+            Mail::to('bshehar2002@gmail.com')->queue(new AdminAppointmentNotification($appointment));
 
-        // Send email to user
-        Mail::to($validated['email'])->queue(new UserAppointmentConfirmation($appointment));
 
-        // Send email to admin
-        Mail::to('rhondajarvis274@gmail.com')->queue(new AdminAppointmentNotification($appointment));
+        return $appointment;
 
-        return response()->json([
-            'message' => 'Appointment scheduled successfully.',
-            'appointment' => $appointment,
-            'success' => true,
-        ], 201);
     }
     public function listSlots(){
         $cacheKey="slots";
         $slots = Cache::remember($cacheKey, 60, function () {
             return Slot::get();
             });
-       
+
         if($slots){
             return  $slots;
         }
@@ -89,7 +84,7 @@ class CreateAppointment
                 return $position;
                 }
                 return false;
-            
+
 
     }
 }

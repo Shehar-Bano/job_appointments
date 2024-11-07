@@ -24,24 +24,6 @@ class ManageAppointmentController extends Controller
         $this->appointments = $appointments;
 
     }
-      /**
-     * @OA\Get(
-     *     path="/api/manage-appointment/list",
-     * security={{"bearerAuth": {}}},
-     *     tags={"Manage Appointment"},
-     *     summary="Get a list of appointments",
-     *     @OA\Parameter(name="limit", in="query", required=false, @OA\Schema(type="integer", example=10)),
-     *     @OA\Parameter(name="start_date", in="query", required=false, @OA\Schema(type="string", format="date", example="2024-10-01")),
-     *     @OA\Parameter(name="end_date", in="query", required=false, @OA\Schema(type="string", format="date", example="2024-10-31")),
-     *     @OA\Parameter(name="email", in="query", required=false, @OA\Schema(type="string", format="email", example="john@example.com")),
-     *     @OA\Parameter(name="name", in="query", required=false, @OA\Schema(type="string", example="John Doe")),
-     *     @OA\Parameter(name="position_id", in="query", required=false, @OA\Schema(type="integer", example=1)),
-     *     @OA\Response(response=200, description="List of appointments retrieved successfully"),
-     *     @OA\Response(response=404, description="No appointments found"),
-     *     @OA\Response(response=500, description="Internal Server Error")
-     * )
-     */
-
     public function index(Request $request)
     {
         try {

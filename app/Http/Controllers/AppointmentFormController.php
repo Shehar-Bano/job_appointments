@@ -48,27 +48,12 @@ class AppointmentFormController extends Controller
         $this->appointments = $createAppointment;
     }
 
-    /**
-     * @OA\Post(
-     *     path="/api/appointment/create",
-     *     tags={"Appointment Form"},
-     * description="API Endpoints for applicant to scheduled appointments for interview",
-     *     summary="Create an appointment",
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(ref="#/components/schemas/AppointmentForm")
-     *     ),
-     *     @OA\Response(response=201, description="Appointment scheduled successfully"),
-     *     @OA\Response(response=409, description="Appointment already scheduled"),
-     *     @OA\Response(response=500, description="Internal Server Error")
-     * )
-     */
     public function store(Request $request)
     {
         try {
             $appointment = $this->appointments->execute($request);
             if ($appointment) {
-                return response()->json(['message' => 'Appointment scheduled successfully', 'success' => true], 201);
+                return response()->json(['message' => 'Appointment scheduled successfully', 'success' => true], 200);
             }
 
             return response()->json(['message' => 'Appointment already scheduled'], 409);
