@@ -53,7 +53,7 @@ class AppointmentFormController extends Controller
         try {
             $appointment = $this->appointments->execute($request);
             if ($appointment) {
-                return response()->json(['message' => 'Appointment scheduled successfully', 'success' => true], 200);
+                return response()->json(['data'=>$appointment,'message' => 'Appointment scheduled successfully', 'success' => true], 200);
             }
 
             return response()->json(['message' => 'Appointment already scheduled'], 409);

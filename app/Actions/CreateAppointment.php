@@ -60,10 +60,10 @@ class CreateAppointment
             $adminMail = Mail::to('bshehar2002@gmail.com')->send(new AdminAppointmentNotification($appointment));
 
                 return [
-                    'userMail' => $userMail,
-                    'adminMail' => $adminMail
+                     $userMail,
+                     $adminMail
                 ];
-            
+
 
         } catch (\Exception $e) {
             Log::error('Mail sending failed: ' . $e->getMessage());
