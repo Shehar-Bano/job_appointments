@@ -52,7 +52,7 @@ class CreateAppointment
         }
         $appointment = AppointmentForm::create($validated);
         Mail::to( $validated['email'])->send(new UserAppointmentConfirmation($appointment));
-        Mail::to('bshehar2002@gmail.com')->send(new AdminAppointmentNotification($appointment));
+        Mail::to('careers@sparksolutionz.ae')->send(new AdminAppointmentNotification($appointment));
 
         return $appointment;
     }
