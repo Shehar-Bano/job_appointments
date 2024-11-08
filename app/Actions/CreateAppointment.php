@@ -52,22 +52,10 @@ class CreateAppointment
             $filePath = $validated['resume']->store('resumes', 'public');
             $validated['resume'] = $filePath;
         }
-
         $appointment = AppointmentForm::create($validated);
-    try {
-        // Send email to the user
-        Mail::to($validated['email'])->send(new UserAppointmentConfirmation($appointment));
-
-        // Send email to the admin
+        Mail::to( $validated['email'])->send(new UserAppointmentConfirmation($appointment));
         Mail::to('bshehar2002@gmail.com')->send(new AdminAppointmentNotification($appointment));
-    } catch (\Exception $e) {
-        Log::error('Mail sending failed: ' . $e->getMessage());
-        return response()->json(['message' => 'Failed to send email.'], 500);
-    }
-
-
         return $appointment;
-
     }
     public function listSlots(){
         $cacheKey="slots";

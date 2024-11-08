@@ -55,7 +55,6 @@ class AppointmentFormController extends Controller
             if ($appointment) {
                 return response()->json(['message' => 'Appointment scheduled successfully', 'success' => true], 200);
             }
-
             return response()->json(['message' => 'Appointment already scheduled'], 409);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
