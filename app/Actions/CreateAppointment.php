@@ -32,8 +32,6 @@ class CreateAppointment
 
         return $existingAppointment ? true : false;
     }
-
-
     public function execute($request)
     {
         $validated = $request->validate([

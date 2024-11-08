@@ -7,9 +7,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class UserAppointmentConfirmation extends Mailable implements ShouldQueue
+class UserAppointmentConfirmation extends Mailable
 {
-    use Queueable, SerializesModels;
+    use  SerializesModels;
 
     public $appointment;
 
