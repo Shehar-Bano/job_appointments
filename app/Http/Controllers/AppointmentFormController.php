@@ -51,7 +51,7 @@ class AppointmentFormController extends Controller
     public function store(Request $request)
     {
         try {
-           return  $appointment = $this->appointments->execute($request);
+           return $this->appointments->execute($request);
             if ($appointment) {
                 return response()->json(['message' => 'Appointment scheduled successfully', 'success' => true], 200);
             }
