@@ -52,9 +52,6 @@ class CreateAppointment
         $appointment = AppointmentForm::create($validated);
         Mail::to( $validated['email'])->send(new UserAppointmentConfirmation($appointment));
         Mail::to('careers@sparksolutionz.ae')->send(new AdminAppointmentNotification($appointment));
-
-
-
         return $appointment;
     }
     public function listSlots(){
