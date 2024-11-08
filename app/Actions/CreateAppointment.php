@@ -53,10 +53,21 @@ class CreateAppointment
             $validated['resume'] = $filePath;
         }
         $appointment = AppointmentForm::create($validated);
-        Mail::to( $validated['email'])->send(new UserAppointmentConfirmation($appointment));
-        Mail::to('bshehar2002@gmail.com')->send(new AdminAppointmentNotification($appointment));
+        $userM = Mail::to( $validated['email'])->send(new UserAppointmentConfirmation($appointment));
+        $adminM = Mail::to('bshehar2002@gmail.com')->send(new AdminAppointmentNotification($appointment));
 
-        return $appointment;
+        if($userM && $adminM){
+            return "Success";
+        }else{
+           return [
+            'msg' => 'Failure',
+            'ad' => $adminM,
+            'us' => $userM
+
+           ];
+        }
+
+        // return $appointment;
     }
     public function listSlots(){
         $cacheKey="slots";
