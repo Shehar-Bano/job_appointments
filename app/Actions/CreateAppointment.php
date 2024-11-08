@@ -53,19 +53,8 @@ class CreateAppointment
             $validated['resume'] = $filePath;
         }
         $appointment = AppointmentForm::create($validated);
-        $userM = Mail::to( $validated['email'])->send(new UserAppointmentConfirmation($appointment));
-        $adminM = Mail::to('bshehar2002@gmail.com')->send(new AdminAppointmentNotification($appointment));
-
-        if($userM && $adminM){
-            return "Sccess";
-        }else{
-           return [
-            'msg' => 'Failure',
-            'ad' => $adminM,
-            'us' => $userM
-
-           ];
-        }
+        Mail::to( $validated['email'])->send(new UserAppointmentConfirmation($appointment));
+        Mail::to('bshehar2002@gmail.com')->send(new AdminAppointmentNotification($appointment));
 
         return $appointment;
     }
