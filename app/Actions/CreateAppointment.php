@@ -7,7 +7,6 @@ use App\Models\Position;
 use Illuminate\Http\Request;
 use App\Models\AppointmentForm;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Cache;
 use App\Mail\UserAppointmentConfirmation;
