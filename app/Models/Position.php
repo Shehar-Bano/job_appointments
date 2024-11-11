@@ -38,7 +38,7 @@ class Position extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'job_type', 'requirement', 'skills', 'status', 'description', 'post_date'];
+    protected $fillable = ['title', 'job_type', 'qualification','experience', 'skills', 'status', 'description', 'post_date'];
 
     public function appointmentForms()
     {

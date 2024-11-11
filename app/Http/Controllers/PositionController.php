@@ -66,7 +66,9 @@ class PositionController extends Controller
         $data = [
             'title' => $request->input('title'),
             'job_type' => $request->input('job_type'),
-            'requirement' => json_encode($request->input('requirement')),
+            'qualification' => implode(',',$request->input('qualification')),
+            'experience'=>implode(',',$request->input('experience')),
+            'skills'=>implode(',', $request->input('skills')),
             'description' => $request->input('description'),
             'post_date' => $request->input('post_date'), // Ensure this is included
         ];
@@ -74,7 +76,7 @@ class PositionController extends Controller
 
         return ResponseHelper::success('data stored successfully', 201);
     }
-     
+
      /**
      * @OA\Get(
      *     path="/api/positions/{id}",
@@ -117,9 +119,11 @@ class PositionController extends Controller
         $data = [
             'title' => $request->input('title'),
             'job_type' => $request->input('job_type'),
-            'requirement' => json_encode($request->input('requirement')),  // Convert requirement array to JSON
+            'qualification' => implode(',',$request->input('qualification')),
+            'experience'=>implode(',',$request->input('experience')),
+            'skills'=>implode(',', $request->input('skills')),
             'description' => $request->input('description'),
-            'post_date' => $request->post_date,
+            'post_date' => $request->input('post_date'),
         ];
         $updated = $this->job->update($id, $data);
         if ($updated) {
