@@ -20,6 +20,7 @@ class PositionRepository implements PositionRepositoryInterface
 
     public function index($limit)
     {
+       
 
         return $this->job->paginate($limit);
     }
