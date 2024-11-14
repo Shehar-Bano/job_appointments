@@ -18,9 +18,10 @@ class PositionRepository implements PositionRepositoryInterface
         return $this->job->create($data);
     }
 
-    public function index()
+    public function index($limit)
     {
-        return $this->job->get();
+
+        return $this->job->paginate($limit);
     }
 
     public function show($id)

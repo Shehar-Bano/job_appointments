@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\ResponseHelper;
-use App\Http\Requests\PositionStoreRequest;
 use App\Models\Position;
+use App\Helpers\ResponseHelper;
+use Illuminate\Support\Facades\Request;
+use App\Http\Requests\PositionStoreRequest;
 use App\Repositories\PositionRepositoryInterface;
 
 class PositionController extends Controller
@@ -35,9 +36,10 @@ class PositionController extends Controller
      *     @OA\Response(response=200, description="List of job positions retrieved successfully"),
      * )
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->job->index();
+        $limit = $this->getValue($request->input('limit'));
+        return $this->job->index($limit);
 
     }
      /**
