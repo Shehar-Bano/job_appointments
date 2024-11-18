@@ -18,13 +18,16 @@ return new class extends Migration
             $table->unsignedBigInteger('slot_id');
             $table->foreign('slot_id')->references('id')->on('slots')->onDelete('cascade');
             $table->string('name');
+            $table->string('image')->nullable();
             $table->string('email');
             $table->string('contact');
             $table->longText('cover_letter');
             $table->string('resume');
             $table->date('date');
-            $table->softDeletes();
+            $table->enum('mode', ['in-person', 'virtual']);
             $table->enum('status', ['scheduled', 'done', 'canceled'])->default('scheduled');
+            $table->softDeletes();
+            
 
             $table->timestamps();
         });

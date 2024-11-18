@@ -36,24 +36,45 @@ class CreateAppointment
         $validated = $request->validate([
             'position_id' => 'required|exists:positions,id',
             'slot_id' => 'required|exists:slots,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,jfif|max:2048',
             'name' => 'required|string|max:50',
             'email' => 'required|email',
             'contact' => 'required|string',
             'cover_letter' => 'nullable|string',
             'resume' => 'required|file|mimes:pdf,doc,docx',
             'date' => 'required|date',
+            'mode'=>'required',
         ]);
-
+   
+        // Handle image upload
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $file = $request->file('image');
+            $fileName = $file->getClientOriginalName();
+            $imageName = time() . "-" . $fileName;
+    
+            // Move the uploaded file to the public resources/images directory
+            $file->move(public_path('resources/images/'), $imageName);
+    
+            // Append the image path to the validated data
+            $validated['image'] = env('APP_URL') . '/resources/images/' . $imageName;
+        }
+    
         // Handle resume upload
         if (isset($validated['resume']) && $validated['resume'] instanceof UploadedFile) {
             $filePath = $validated['resume']->store('resumes', 'public');
             $validated['resume'] = $filePath;
         }
+        // dd($validated);
+        // Create an appointment record
         $appointment = AppointmentForm::create($validated);
-        Mail::to( $validated['email'])->send(new UserAppointmentConfirmation($appointment));
+    
+        // Send email notifications
+        Mail::to($validated['email'])->send(new UserAppointmentConfirmation($appointment));
         Mail::to('careers@thesparksolutionz.com')->send(new AdminAppointmentNotification($appointment));
+    
         return $appointment;
     }
+    
     public function listSlots(){
         $cacheKey="slots";
         $slots = Cache::remember($cacheKey, 60, function () {
