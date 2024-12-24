@@ -28,6 +28,8 @@ class AppointmentFormFactory extends Factory
             'resume' => 'resumes/'.$this->faker->uuid().'.pdf', // Example resume path
             'date' => $this->faker->date('Y-m-d'),
             'status' => $this->faker->randomElement(['scheduled', 'done', 'canceled']),
+            'mode' => $this->faker->randomElement(['in-person', 'virtual']),
+            'image' => 'images/' . $this->faker->uuid() . '.jpg', // Example image path
         ];
     }
 }

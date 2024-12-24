@@ -21,6 +21,8 @@ class AppointmentResource extends JsonResource
             'contact' => $this->contact,
             'cover_letter' => $this->cover_letter,
             'status' => $this->status,
+            'image' => $this->image,
+            'mode'=>$this->mode,
             'resume' => $this->resume,
             'date' => $this->date,
             'slot_id' => $this->slot_id,

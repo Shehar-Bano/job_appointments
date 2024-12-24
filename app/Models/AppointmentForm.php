@@ -19,6 +19,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $resume
  * @property string $date
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ *  @property string $image
+ *  @property string $mode
  * @property string $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -49,7 +51,7 @@ class AppointmentForm extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['position_id', 'slot_id', 'name', 'email', 'contact', 'cover_letter', 'resume', 'date'];
+    protected $fillable = ['position_id', 'slot_id', 'name', 'email','image','mode', 'contact', 'cover_letter', 'resume', 'date'];
 
     public function position()
     {
