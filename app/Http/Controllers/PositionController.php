@@ -39,6 +39,7 @@ class PositionController extends Controller
     public function index()
     {
         // $limit = $this->getValue($request->input('limit'));
+        
         return $this->job->index();
 
     }
