@@ -36,10 +36,10 @@ class PositionController extends Controller
      *     @OA\Response(response=200, description="List of job positions retrieved successfully"),
      * )
      */
-    public function index(Request $request)
+    public function index()
     {
-        $limit = $this->getValue($request->input('limit'));
-        return $this->job->index($limit);
+        // $limit = $this->getValue($request->input('limit'));
+        return $this->job->index();
 
     }
      /**
